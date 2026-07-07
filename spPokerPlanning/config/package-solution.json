@@ -1,0 +1,62 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "Sprint Align",
+    "iconPath": "assets/appicon.png",
+    "id": "72d67433-2969-4168-9f32-34f6c9b994a0",
+    "version": "1.1.3.23",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "webApiPermissionRequests": [
+      {
+        "resource": "Microsoft Graph",
+        "scope": "User.ReadBasic.All"
+      },
+      {
+        "resource": "Microsoft Graph",
+        "scope": "Presence.Read.All"
+      },
+      {
+        "resource": "499b84ac-1321-427f-aa17-267ca6975798",
+        "scope": "user_impersonation"
+      }
+    ],
+    "developer": {
+      "name": "Sprint Align",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.21.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "Planning poker, dot voting, and agile estimation for SharePoint and Teams"
+      },
+      "longDescription": {
+        "default": "Sprint Align runs planning poker, confidence votes, fist-of-five, roman votes, dot voting, and surveys. All session data stays in SharePoint lists on the host site — no external backend."
+      },
+      "screenshotPaths": [
+        "../store-assets/generated/screenshots/sprint-align-screenshot-01-home.png",
+        "../store-assets/generated/screenshots/sprint-align-screenshot-02-sessions.png",
+        "../store-assets/generated/screenshots/sprint-align-screenshot-03-settings.png"
+      ],
+      "videoUrl": "",
+      "categories": ["Productivity"]
+    },
+    "features": [
+      {
+        "title": "Sprint Align Feature",
+        "description": "Activates the Sprint Align web part on this site.",
+        "id": "5d3383f9-3ad9-4baa-93ee-4cf6bb322d02",
+        "version": "1.1.3.23",
+        "componentIds": [
+          "28aa74f7-6fa5-46b3-8eeb-52e0619be118"
+        ]
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/estimatr.sppkg"
+  }
+}

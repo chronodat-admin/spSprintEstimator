@@ -1,0 +1,16 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+
+.estimatr {
+  width: 100%;
+  min-height: 100%;
+  overflow: visible;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  color: "[theme:bodyText, default: #323130]";
+  color: var(--bodyText);
+
+  &.teams {
+    font-family: $ms-font-family-fallbacks;
+  }
+}

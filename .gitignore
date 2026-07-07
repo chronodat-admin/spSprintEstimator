@@ -1,0 +1,17 @@
+# Workspace-level ignores
+.DS_Store
+Thumbs.db
+
+# App project (see spPokerPlanning/.gitignore for build/test rules)
+spPokerPlanning/node_modules/
+spPokerPlanning/dist/
+spPokerPlanning/lib/
+spPokerPlanning/release/
+spPokerPlanning/temp/
+spPokerPlanning/*.sppkg
+spPokerPlanning/.heft
+spPokerPlanning/coverage/
+spPokerPlanning/e2e/.auth/
+spPokerPlanning/e2e/.env
+spPokerPlanning/playwright-report/
+spPokerPlanning/test-results/

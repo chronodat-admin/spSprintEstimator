@@ -1,0 +1,22 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "whichFolder": "subdir",
+    "solutionName": "estimatr",
+    "environment": "spo",
+    "packageManager": "npm",
+    "skipFeatureDeployment": true,
+    "componentType": "webpart",
+    "template": "react",
+    "componentName": "estimatr",
+    "componentDescription": "Agile estimation and team-voting app for IT teams",
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.17.1",
+    "sdksVersions": {},
+    "version": "1.21.1",
+    "libraryName": "estimatr",
+    "libraryId": "72d67433-2969-4168-9f32-34f6c9b994a0",
+    "solutionShortDescription": "estimatr description",
+    "isDomainIsolated": false
+  }
+}

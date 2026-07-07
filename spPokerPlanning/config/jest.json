@@ -1,0 +1,5 @@
+{
+  "isEnabled": true,
+  "coverage": true,
+  "testMatch": ["<rootDir>/lib/**/*.test.js"]
+}

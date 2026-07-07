@@ -1,0 +1,40 @@
+{
+  "productName": "Sprint Align",
+  "shortDescription": "Planning poker, dot voting, and agile estimation for SharePoint and Teams. Session data stays in your site lists—no external backend.",
+  "longDescription": "Align your team on story points, confidence, and priorities inside Microsoft 365. Sprint Align is a SharePoint-native estimation app with planning poker, dot voting, surveys, join-by-code sessions, facilitator controls, CSV export, and site-level governance. Optional Graph photos, presence, and Azure DevOps import are available via administrator feature flags. Core sessions and votes are stored in SharePoint lists on the host site.",
+  "categories": ["Productivity"],
+  "keywords": [
+    "planning poker",
+    "agile estimation",
+    "story points",
+    "sprint planning",
+    "SharePoint",
+    "Microsoft Teams",
+    "dot voting",
+    "scrum"
+  ],
+  "searchKeywords": "planning poker agile estimation story points sprint planning scrum dot voting SharePoint Teams",
+  "supportUrl": "https://your-domain.com/support",
+  "privacyUrl": "https://your-domain.com/privacy",
+  "termsOfUseUrl": "https://your-domain.com/terms",
+  "supportEmail": "support@your-domain.com",
+  "screenshots": [
+    {
+      "file": "generated/screenshots/sprint-align-screenshot-01-home.png",
+      "caption": "Join sessions with a code or start a new estimation workshop from a branded full-page home screen."
+    },
+    {
+      "file": "generated/screenshots/sprint-align-screenshot-02-sessions.png",
+      "caption": "Facilitators run rounds, track participation, and reveal team estimates item by item."
+    },
+    {
+      "file": "generated/screenshots/sprint-align-screenshot-03-settings.png",
+      "caption": "Site owners provision lists, set retention, branding, layout, and session-creation rules."
+    }
+  ],
+  "logos": {
+    "largePng": "generated/store-logo-300.png",
+    "mediumPng": "generated/store-logo-216.png"
+  },
+  "releaseNotes": "Sprint Align v1.1.0.0 — marketplace launch with unified Settings, custom branding, full-page layout, six vote types, and SharePoint-native data storage."
+}
