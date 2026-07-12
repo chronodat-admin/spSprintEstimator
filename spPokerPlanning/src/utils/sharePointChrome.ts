@@ -979,6 +979,25 @@ export function applyWebPartHostStyles(hostElement: HTMLElement, teamsHost = fal
       border-bottom-color: #14b8a6;
     }
 
+    /*
+     * Fluent v8 renders checkbox labels with a low-contrast neutral (and an even
+     * darker disabled color) that is nearly invisible on the dark surface. Force
+     * legible text for both states — disabled options (e.g. before setup) must
+     * still be readable.
+     */
+    .${HOST_CLASS} .estimatr-themed[data-theme="dark"] .ms-Checkbox-text {
+      color: var(--estimatr-text-primary, #f1f5f9);
+    }
+
+    .${HOST_CLASS} .estimatr-themed[data-theme="dark"] .ms-Checkbox.is-disabled .ms-Checkbox-text,
+    .${HOST_CLASS} .estimatr-themed[data-theme="dark"] .ms-Checkbox.is-checkbox-disabled .ms-Checkbox-text {
+      color: var(--estimatr-text-secondary, #94a3b8);
+    }
+
+    .${HOST_CLASS} .estimatr-themed[data-theme="dark"] .ms-Checkbox.is-disabled .ms-Checkbox-checkbox {
+      border-color: var(--estimatr-border-strong, #475569);
+    }
+
     .${HOST_CLASS} .fui-MessageBar,
     .${HOST_CLASS} .fui-Card,
     .${HOST_CLASS} .fui-Text {
@@ -1439,9 +1458,12 @@ export function removeAppLoadingState(hostElement?: HTMLElement): void {
     return;
   }
   document.body.classList.remove(BODY_APP_LOADING_CLASS);
-  if (hostElement) {
-    hostElement.classList.remove(HOST_LOADING_CLASS);
-  }
+  // When no host is supplied (e.g. called from deep inside React), clear the
+  // loading class from any host that still carries it so the reveal is reliable.
+  const hosts = hostElement
+    ? [hostElement]
+    : Array.from(document.querySelectorAll<HTMLElement>(`.${HOST_LOADING_CLASS}`));
+  hosts.forEach((el) => el.classList.remove(HOST_LOADING_CLASS));
   removeFullScreenLoader();
 }
 

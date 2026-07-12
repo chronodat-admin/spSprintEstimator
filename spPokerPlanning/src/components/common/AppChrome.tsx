@@ -3,6 +3,8 @@ import {
   DefaultButton,
   Icon,
   IButtonProps,
+  Spinner,
+  SpinnerSize,
   Stack,
   useTheme
 } from '@fluentui/react';
@@ -109,6 +111,33 @@ export const Surface: React.FC<SurfaceProps> = ({ children, padding = 24, tone =
   );
 };
 
+export interface PageLoaderProps {
+  label?: string;
+  maxWidth?: number;
+}
+
+/**
+ * Standard full-page loading state. Centralised so every view shows the same
+ * centered large spinner (and matching page width) instead of ad-hoc spinners
+ * that differ in size, alignment, and card width between pages.
+ */
+export const PageLoader: React.FC<PageLoaderProps> = ({ label = 'Loading…', maxWidth }) => (
+  <Page maxWidth={maxWidth}>
+    <Surface>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: 220
+        }}
+      >
+        <Spinner size={SpinnerSize.large} label={label} />
+      </div>
+    </Surface>
+  </Page>
+);
+
 export interface StatTileProps {
   label: string;
   value: React.ReactNode;
@@ -192,11 +221,11 @@ export const InfoTile: React.FC<InfoTileProps> = ({ iconName, title, body }) => 
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'var(--estimatr-brand-primary-light, #dbeafe)',
-            color: 'var(--estimatr-brand-primary, #2563eb)'
+            background: 'var(--estimatr-icon-chip-bg, #dbeafe)',
+            color: 'var(--estimatr-icon-chip-fg, #2563eb)'
           }}
         >
-          <Icon iconName={iconName} />
+          <Icon iconName={iconName} styles={{ root: { fontSize: 18 } }} />
         </span>
         <div style={{ color: 'var(--estimatr-text-primary, #0f172a)', fontSize: 16, fontWeight: 800, lineHeight: 1.25 }}>{title}</div>
         <div style={{ color: 'var(--estimatr-text-secondary, #64748b)', fontSize: 13, lineHeight: 1.45 }}>{body}</div>

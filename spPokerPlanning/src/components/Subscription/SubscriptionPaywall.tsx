@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { DefaultButton, PrimaryButton, Spinner, Stack, Text } from '@fluentui/react';
+import { DefaultButton, PrimaryButton, Stack, Text } from '@fluentui/react';
 import { DEFAULT_APP_TITLE } from '../../constants/spfxComponents';
 import { useSubscription } from '../../contexts/SubscriptionContext';
-import { Page, Surface } from '../common/AppChrome';
+import { Page, PageLoader, Surface } from '../common/AppChrome';
 
 export interface ISubscriptionPaywallProps {
   onOpenSubscriptionSettings?: () => void;
@@ -27,13 +27,7 @@ export const SubscriptionPaywall: React.FC<ISubscriptionPaywallProps> = ({
   };
 
   if (loading) {
-    return (
-      <Page>
-        <Surface>
-          <Spinner label="Checking subscription…" />
-        </Surface>
-      </Page>
-    );
+    return <PageLoader label="Checking subscription…" maxWidth={640} />;
   }
 
   return (

@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { DefaultButton, Icon, PrimaryButton, Spinner, Stack, Text } from '@fluentui/react';
+import { DefaultButton, Icon, PrimaryButton, Stack, Text } from '@fluentui/react';
 import { DEFAULT_APP_TITLE } from '../../constants/spfxComponents';
 import { useSubscription } from '../../contexts/SubscriptionContext';
-import { Page, Surface } from '../common/AppChrome';
+import { Page, PageLoader, Surface } from '../common/AppChrome';
 
 export interface ISubscriptionConnectivityErrorProps {
   onOpenSubscriptionSettings?: () => void;
@@ -24,13 +24,7 @@ export const SubscriptionConnectivityError: React.FC<ISubscriptionConnectivityEr
   };
 
   if (loading) {
-    return (
-      <Page>
-        <Surface>
-          <Spinner label="Checking subscription…" />
-        </Surface>
-      </Page>
-    );
+    return <PageLoader label="Checking subscription…" maxWidth={640} />;
   }
 
   return (

@@ -152,8 +152,8 @@ function getUiSemanticTokens(colorMode: AppColorMode, branding: BrandingColors):
   if (colorMode === 'dark') {
     return {
       '--estimatr-text-primary': '#f1f5f9',
-      '--estimatr-text-secondary': '#94a3b8',
-      '--estimatr-text-muted': '#64748b',
+      '--estimatr-text-secondary': '#aab6c8',
+      '--estimatr-text-muted': '#8593a6',
       '--estimatr-surface': '#1e293b',
       '--estimatr-surface-muted': 'rgba(30, 41, 59, 0.92)',
       '--estimatr-surface-soft': '#0f172a',
@@ -167,7 +167,14 @@ function getUiSemanticTokens(colorMode: AppColorMode, branding: BrandingColors):
       '--estimatr-brand-primary-light': mixHexWithWhite(branding.brandPrimary, 0.12),
       '--estimatr-chip-neutral-bg': '#1e293b',
       '--estimatr-chip-neutral-color': '#cbd5e1',
-      '--estimatr-chip-neutral-border': '#334155'
+      '--estimatr-chip-neutral-border': '#334155',
+      '--estimatr-success-text': '#4ade80',
+      '--estimatr-danger-text': '#f87171',
+      // Dedicated icon-chip tokens: a dark branded tile with a brightened brand
+      // glyph. Using brand-primary directly here fails in dark mode when the brand
+      // is light (e.g. lime), because the tinted chip background is light too.
+      '--estimatr-icon-chip-bg': mixHexWithBlack(branding.brandPrimary, 0.6),
+      '--estimatr-icon-chip-fg': mixHexWithWhite(branding.brandPrimary, 0.32)
     };
   }
 
@@ -188,7 +195,11 @@ function getUiSemanticTokens(colorMode: AppColorMode, branding: BrandingColors):
     '--estimatr-brand-primary-light': mixHexWithWhite(branding.brandPrimary, 0.86),
     '--estimatr-chip-neutral-bg': '#f8fafc',
     '--estimatr-chip-neutral-color': '#475569',
-    '--estimatr-chip-neutral-border': '#e2e8f0'
+    '--estimatr-chip-neutral-border': '#e2e8f0',
+    '--estimatr-success-text': '#0f7b0f',
+    '--estimatr-danger-text': '#a4262c',
+    '--estimatr-icon-chip-bg': mixHexWithWhite(branding.brandPrimary, 0.86),
+    '--estimatr-icon-chip-fg': branding.brandPrimaryDark
   };
 }
 
@@ -246,10 +257,17 @@ function buildDarkBrandedFluentTheme(
   branding: BrandingColors,
   themeVariant?: ThemeVariantHints
 ): IPartialTheme {
-  const semanticColors = themeVariant?.semanticColors;
+  // Only trust the host's semantic colors when the host itself is dark. When a
+  // user forces dark mode on a light SharePoint page, the host themeVariant is
+  // still light (dark body text) — using it here paints labels/text dark-on-dark
+  // and makes them invisible. Fall back to our dark palette in that case.
+  const semanticColors = themeVariant?.isInverted ? themeVariant.semanticColors : undefined;
   const themePrimary = branding.brandPrimary;
 
   return {
+    // Mark the theme inverted so Fluent picks dark ramps for callouts, dropdown
+    // menus, and hover states instead of assuming a light host background.
+    isInverted: true,
     palette: {
       themePrimary,
       themeDark: branding.brandPrimaryDark,
@@ -259,8 +277,10 @@ function buildDarkBrandedFluentTheme(
       themeLighter: mixHexWithWhite(branding.brandPrimary, 0.08),
       themeLighterAlt: '#1e293b',
       neutralPrimary: '#f1f5f9',
-      neutralSecondary: '#94a3b8',
-      neutralTertiary: '#64748b',
+      neutralSecondary: '#aab6c8',
+      neutralSecondaryAlt: '#aab6c8',
+      neutralTertiary: '#8593a6',
+      neutralTertiaryAlt: '#64748b',
       neutralQuaternary: '#475569',
       neutralLight: '#334155',
       neutralLighter: '#1e293b',
@@ -274,9 +294,17 @@ function buildDarkBrandedFluentTheme(
     semanticColors: {
       bodyBackground: semanticColors?.bodyBackground || '#0f172a',
       bodyText: semanticColors?.bodyText || '#f1f5f9',
+      bodySubtext: '#aab6c8',
       link: semanticColors?.link || branding.brandAccent,
       bodyBackgroundChecked: semanticColors?.bodyBackgroundChecked || '#334155',
-      bodyBackgroundHovered: semanticColors?.bodyBackgroundHovered || '#1e293b'
+      bodyBackgroundHovered: semanticColors?.bodyBackgroundHovered || '#1e293b',
+      // Keep disabled controls muted but still legible on the dark surface.
+      disabledBackground: '#1e293b',
+      disabledText: '#93a1b5',
+      disabledBodyText: '#9fadc0',
+      disabledSubtext: '#8593a6',
+      inputText: '#f1f5f9',
+      inputPlaceholderText: '#aab6c8'
     }
   };
 }
@@ -285,7 +313,10 @@ function buildLightBrandedFluentTheme(
   branding: BrandingColors,
   themeVariant?: ThemeVariantHints
 ): IPartialTheme {
-  const semanticColors = themeVariant?.semanticColors;
+  // Mirror of the dark builder: only adopt the host's semantic colors when the
+  // host is also light. A dark host forced to light mode would otherwise supply
+  // light body text on a light background.
+  const semanticColors = themeVariant && !themeVariant.isInverted ? themeVariant.semanticColors : undefined;
   const themePrimary = branding.brandPrimary;
 
   return {

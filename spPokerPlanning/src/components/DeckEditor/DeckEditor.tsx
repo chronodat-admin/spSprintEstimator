@@ -2,7 +2,7 @@ import * as React from 'react';
 import { DefaultButton, PrimaryButton, Stack, Text, TextField, useTheme } from '@fluentui/react';
 import { Deck, DEFAULT_POKER_VALUES, SiteSettings } from '../../models';
 import { useEstimatr } from '../../state/EstimatrContext';
-import { Page, PageHeader, Surface } from '../common/AppChrome';
+import { Page, PageHeader, PageLoader, Surface } from '../common/AppChrome';
 
 export const DeckEditor: React.FC = () => {
   const { orchestrator, setUi, showToast } = useEstimatr();
@@ -11,13 +11,22 @@ export const DeckEditor: React.FC = () => {
   const [settings, setSettings] = React.useState<SiteSettings | undefined>();
   const [title, setTitle] = React.useState('Custom deck');
   const [valuesText, setValuesText] = React.useState(DEFAULT_POKER_VALUES.join(', '));
+  const [loading, setLoading] = React.useState(true);
 
   const load = (): void => {
     orchestrator.dataService.getDecks().then(setDecks).catch(() => undefined);
     orchestrator.dataService.getSettings().then(setSettings).catch(() => undefined);
   };
 
-  React.useEffect(load, [orchestrator]);
+  React.useEffect(() => {
+    setLoading(true);
+    Promise.all([
+      orchestrator.dataService.getDecks().then(setDecks).catch(() => undefined),
+      orchestrator.dataService.getSettings().then(setSettings).catch(() => undefined)
+    ])
+      .then(() => setLoading(false))
+      .catch(() => setLoading(false));
+  }, [orchestrator]);
 
   const handleCreate = async (): Promise<void> => {
     const values = valuesText.split(',').map((v) => v.trim()).filter(Boolean);
@@ -60,6 +69,10 @@ export const DeckEditor: React.FC = () => {
       showToast(err instanceof Error ? err.message : 'Unable to update default deck', 'error');
     }
   };
+
+  if (loading) {
+    return <PageLoader label="Loading decks" maxWidth={900} />;
+  }
 
   return (
     <Page maxWidth={900}>

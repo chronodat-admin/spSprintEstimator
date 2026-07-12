@@ -13,12 +13,15 @@ import {
 } from '../../models/SiteSettings';
 import { isTeamsHosted } from '../../utils/hostContext';
 import {
+  applyAppLoadingState,
   applySharePointChromeSettings,
   applyWebPartHostStyles,
   clearSharePointChromeSettings,
   loadEstimatrHostStyles,
   markTeamsHostEnvironment,
+  removeAppLoadingState,
   SharePointChromeSettings,
+  showFullScreenLoader,
   unmarkTeamsHostEnvironment
 } from '../../utils/sharePointChrome';
 import { SharePointDataService } from '../../services/SharePointDataService';
@@ -93,6 +96,17 @@ export default class EstimatrWebPart extends BaseClientSideWebPart<IEstimatrWebP
     try {
       patchTabsterInstance();
       loadEstimatrHostStyles();
+      // Boot behind an opaque overlay with SharePoint chrome already hidden, so
+      // the user never sees the suite/command bars render and then get hidden
+      // (the "chrome flicker"), nor a hand-off between multiple spinners. The
+      // React app removes it once its first screen is ready. Skipped in edit
+      // mode (authors need the chrome) and in Teams (no SharePoint chrome).
+      if (!this._isEditMode && !this._isTeamsHost) {
+        applyAppLoadingState(this.domElement);
+        showFullScreenLoader();
+      } else {
+        removeAppLoadingState(this.domElement);
+      }
       this._applyLayout();
     } catch (error) {
       // eslint-disable-next-line no-console

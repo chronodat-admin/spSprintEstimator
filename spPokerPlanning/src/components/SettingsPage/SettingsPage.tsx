@@ -9,7 +9,6 @@ import {
   Pivot,
   PivotItem,
   PrimaryButton,
-  Spinner,
   SpinButton,
   Stack,
   Text,
@@ -38,7 +37,7 @@ import { AzureDevOpsService, formatAdoAuthError } from '../../services/Integrati
 import { IProvisioningStatus } from '../../services/ProvisioningService';
 import { useEstimatr } from '../../state/EstimatrContext';
 import { isTeamsHosted } from '../../utils/hostContext';
-import { InfoTile, Page, PageHeader, ResponsiveGrid, Surface } from '../common/AppChrome';
+import { InfoTile, Page, PageHeader, PageLoader, ResponsiveGrid, Surface } from '../common/AppChrome';
 import { BrandColorField } from './BrandColorField';
 import { applyAppearancePreview } from '../../utils/appearancePreview';
 import {
@@ -276,13 +275,13 @@ export const SettingsPage: React.FC = () => {
               onClick={handleAdoTest}
             />
             {adoTest === 'ok' && (
-              <Text variant="small" styles={{ root: { color: theme.palette.green, fontWeight: 600 } }}>
+              <Text variant="small" styles={{ root: { color: 'var(--estimatr-success-text, #0f7b0f)', fontWeight: 600 } }}>
                 <Icon iconName="CompletedSolid" styles={{ root: { marginRight: 4, verticalAlign: 'middle' } }} />
                 Connected — unestimated stories are reachable.
               </Text>
             )}
             {adoTest === 'fail' && (
-              <Text variant="small" styles={{ root: { color: theme.palette.redDark, fontWeight: 600, maxWidth: 520 } }}>
+              <Text variant="small" styles={{ root: { color: 'var(--estimatr-danger-text, #a4262c)', fontWeight: 600, maxWidth: 520 } }}>
                 <Icon iconName="ErrorBadge" styles={{ root: { marginRight: 4, verticalAlign: 'middle' } }} />
                 {adoTestError || 'Could not reach Azure DevOps. Confirm admin consent and the org/project names.'}
               </Text>
@@ -381,13 +380,7 @@ export const SettingsPage: React.FC = () => {
   };
 
   if (loading) {
-    return (
-      <Page maxWidth={980}>
-        <Surface>
-          <Spinner label="Loading settings" />
-        </Surface>
-      </Page>
-    );
+    return <PageLoader label="Loading settings" maxWidth={980} />;
   }
 
   return (

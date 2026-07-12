@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { MessageBar, MessageBarType, Spinner, SpinnerSize } from '@fluentui/react';
+import { MessageBar, MessageBarType } from '@fluentui/react';
 import { useOptionalSubscription } from '../../contexts/SubscriptionContext';
 import { useEstimatr } from '../../state/EstimatrContext';
 import { scrollAppContentToTop } from '../../utils/scrollAppContent';
-import { Page, Surface } from '../common/AppChrome';
+import { PageLoader } from '../common/AppChrome';
 import { HomePage } from '../HomePage/HomePage';
 import { SessionWizard } from '../SessionWizard/SessionWizard';
 import { Lobby } from '../Lobby/Lobby';
@@ -14,32 +14,55 @@ import { DeckEditor } from '../DeckEditor/DeckEditor';
 import { SubscriptionConnectivityError } from '../Subscription/SubscriptionConnectivityError';
 import { SubscriptionPaywall } from '../Subscription/SubscriptionPaywall';
 import { OnboardingHost } from '../Onboarding/OnboardingHost';
-import { ColorModeToggle } from '../common/ColorModeToggle';
+import { removeAppLoadingState } from '../../utils/sharePointChrome';
 
 export const EstimatrApp: React.FC = () => {
   const { ui, setUi } = useEstimatr();
   const subscription = useOptionalSubscription();
+  const [homeReady, setHomeReady] = React.useState(false);
 
   const openSubscriptionSettings = React.useCallback((): void => {
     setUi({ view: 'settings', settingsTab: 'subscription' });
   }, [setUi]);
 
+  const handleHomeReady = React.useCallback((): void => {
+    setHomeReady(true);
+  }, []);
+
   React.useEffect(() => {
     scrollAppContentToTop('auto');
   }, [ui.view]);
+
+  // Hold the bootstrap overlay (shown by the web part) until the first screen is
+  // actually ready, then reveal in one step — no overlay→spinner→content flicker.
+  const subscriptionBusy = Boolean(
+    subscription && subscription.configured && subscription.loading
+  );
+  const subscriptionBlocking = Boolean(
+    subscription &&
+      subscription.configured &&
+      !subscription.loading &&
+      (subscription.connectivityError || !subscription.hasAccess)
+  );
+
+  React.useEffect(() => {
+    if (subscriptionBusy) {
+      return;
+    }
+    // The home screen loads its own data; wait for it. Every other first screen
+    // (paywall, connectivity error, or a deep-linked view) is ready on mount.
+    if (!subscriptionBlocking && ui.view === 'home' && !homeReady) {
+      return;
+    }
+    removeAppLoadingState();
+  }, [subscriptionBusy, subscriptionBlocking, ui.view, homeReady]);
 
   const renderMainContent = (): React.ReactNode => {
     // When the provider isn't mounted (e.g. subscription disabled), fall
     // through to the app so licensing can never hard-block rendering.
     if (subscription && subscription.configured) {
       if (subscription.loading) {
-        return (
-          <Page>
-            <Surface>
-              <Spinner size={SpinnerSize.large} label="Checking subscription…" />
-            </Surface>
-          </Page>
-        );
+        return <PageLoader label="Checking subscription…" />;
       }
 
       if (subscription.connectivityError) {
@@ -53,7 +76,7 @@ export const EstimatrApp: React.FC = () => {
 
     return (
       <OnboardingHost>
-        {ui.view === 'home' && <HomePage onOpenSubscriptionSettings={openSubscriptionSettings} />}
+        {ui.view === 'home' && <HomePage onOpenSubscriptionSettings={openSubscriptionSettings} onReady={handleHomeReady} />}
         {ui.view === 'wizard' && <SessionWizard />}
         {ui.view === 'lobby' && <Lobby />}
         {ui.view === 'session' && <SessionView />}
@@ -74,10 +97,6 @@ export const EstimatrApp: React.FC = () => {
           MessageBarType.info
         }>{ui.toast.text}</MessageBar>
       )}
-
-      <div className="estimatr-app-chrome-bar">
-        <ColorModeToggle />
-      </div>
 
       <div className="estimatr-app-scroll" data-estimatr-scroll-root>
         {renderMainContent()}

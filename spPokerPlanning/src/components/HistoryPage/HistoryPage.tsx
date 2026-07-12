@@ -5,6 +5,8 @@ import {
   DialogFooter,
   DialogType,
   Dropdown,
+  MessageBar,
+  MessageBarType,
   PrimaryButton,
   Stack,
   Text,
@@ -14,7 +16,7 @@ import { Session, SessionStatus, SessionType, Vote, WorkItem, Round } from '../.
 import { RoundState } from '../../models/SessionType';
 import { ExportService } from '../../services/ExportService';
 import { useEstimatr } from '../../state/EstimatrContext';
-import { Page, PageHeader, Surface } from '../common/AppChrome';
+import { Page, PageHeader, PageLoader, Surface } from '../common/AppChrome';
 
 interface SessionDetail {
   items: WorkItem[];
@@ -65,6 +67,7 @@ export const HistoryPage: React.FC = () => {
   const [details, setDetails] = React.useState<Record<number, SessionDetail>>({});
   const [pendingDelete, setPendingDelete] = React.useState<Session | undefined>();
   const [deletingId, setDeletingId] = React.useState<number | undefined>();
+  const [loading, setLoading] = React.useState(true);
 
   const reloadSessions = React.useCallback(async (): Promise<void> => {
     const list = await orchestrator.dataService.listSessions();
@@ -80,11 +83,18 @@ export const HistoryPage: React.FC = () => {
   }, [orchestrator]);
 
   React.useEffect(() => {
-    reloadSessions().catch(() => undefined);
+    setLoading(true);
+    reloadSessions()
+      .catch(() => undefined)
+      .finally(() => setLoading(false));
   }, [reloadSessions]);
 
   const filtered = filterType === 'all' ? sessions : sessions.filter((s) => s.type === filterType);
   const canDeleteAny = orchestrator.isSiteOwner();
+  const maxVelocity = React.useMemo(
+    () => velocity.reduce((max, v) => Math.max(max, v.total), 0),
+    [velocity]
+  );
 
   const loadDetail = async (sessionId: number): Promise<void> => {
     if (details[sessionId]) {
@@ -155,6 +165,10 @@ export const HistoryPage: React.FC = () => {
       : `Delete "${pendingDelete.title}" (${pendingDelete.code})? This session is still ${pendingDelete.status} and will be removed for everyone immediately.`
     : '';
 
+  if (loading) {
+    return <PageLoader label="Loading history" maxWidth={1040} />;
+  }
+
   return (
     <Page maxWidth={1040}>
       <PageHeader
@@ -174,29 +188,71 @@ export const HistoryPage: React.FC = () => {
 
         {velocity.length > 0 && (
           <Surface padding={24}>
-            <Stack tokens={{ childrenGap: 12 }}>
-              <Text block styles={{ root: { fontSize: 22, fontWeight: 700, lineHeight: 1.25 } }}>Velocity by sprint tag</Text>
-              <svg width="100%" height={140} viewBox={`0 0 ${velocity.length * 90} 140`} role="img" aria-label="Velocity by sprint tag">
-                {velocity.map((v, i) => {
-                  const height = Math.max(8, v.total * 4);
-                  return (
-                    <g key={v.tag}>
-                      <rect x={i * 90 + 14} y={122 - height} width={54} height={height} rx={8} fill={theme.palette.themePrimary} />
-                      <text x={i * 90 + 16} y={136} fontSize={11} fill={theme.palette.neutralSecondary}>{v.tag}</text>
-                      <text x={i * 90 + 24} y={112 - height} fontSize={12} fontWeight={700} fill={theme.palette.neutralPrimary}>{v.total}</text>
-                    </g>
-                  );
-                })}
-              </svg>
+            <Stack tokens={{ childrenGap: 16 }}>
+              <Stack tokens={{ childrenGap: 4 }}>
+                <Text block styles={{ root: { fontSize: 22, fontWeight: 700, lineHeight: 1.25 } }}>Velocity by sprint tag</Text>
+                <Text block variant="small" styles={{ root: { color: 'var(--estimatr-text-secondary, #64748b)', lineHeight: 1.5 } }}>
+                  Total story points from finalized estimates, grouped by sprint tag.
+                </Text>
+              </Stack>
+              {maxVelocity > 0 ? (
+                <div
+                  role="img"
+                  aria-label="Velocity by sprint tag"
+                  style={{ display: 'flex', gap: 20, alignItems: 'stretch', overflowX: 'auto', paddingBottom: 4 }}
+                >
+                  {velocity.map((v) => {
+                    const fillPx = Math.round((v.total / maxVelocity) * 132);
+                    return (
+                      <div
+                        key={v.tag}
+                        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, flex: '1 1 0', minWidth: 76, maxWidth: 160 }}
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                            alignItems: 'center',
+                            width: '100%',
+                            height: 160,
+                            borderBottom: '1px solid var(--estimatr-border, #e2e8f0)'
+                          }}
+                        >
+                          <div style={{ fontSize: 13, fontWeight: 800, color: 'var(--estimatr-text-primary, #0f172a)', marginBottom: 6 }}>{v.total}</div>
+                          <div
+                            title={`${v.tag}: ${v.total}`}
+                            style={{
+                              width: '100%',
+                              maxWidth: 72,
+                              height: v.total > 0 ? Math.max(fillPx, 6) : 0,
+                              borderRadius: '8px 8px 0 0',
+                              background: 'var(--estimatr-brand-gradient, linear-gradient(180deg, #1e40af 0%, #2563eb 60%, #0ea5e9 100%))',
+                              transition: 'height 240ms ease-out'
+                            }}
+                          />
+                        </div>
+                        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--estimatr-text-secondary, #64748b)', textAlign: 'center', lineHeight: 1.35, wordBreak: 'break-word', width: '100%' }}>
+                          {v.tag}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <MessageBar messageBarType={MessageBarType.info}>
+                  No finalized story points yet for these sprint tags. Velocity appears once sessions save final estimates.
+                </MessageBar>
+              )}
             </Stack>
           </Surface>
         )}
 
         <Surface padding={24}>
           <Stack tokens={{ childrenGap: 12 }}>
-            <Text block styles={{ root: { fontSize: 22, fontWeight: 700, lineHeight: 1.25 } }}>Sessions</Text>
+            <Text block styles={{ root: { fontSize: 22, fontWeight: 700, lineHeight: 1.25, color: 'var(--estimatr-text-primary, #0f172a)' } }}>Sessions</Text>
             {canDeleteAny ? (
-              <Text block variant="small" styles={{ root: { color: theme.palette.neutralSecondary, lineHeight: 1.5 } }}>
+              <Text block styles={{ root: { fontSize: 13, color: 'var(--estimatr-text-secondary, #64748b)', lineHeight: 1.5 } }}>
                 Site owners can delete any session. Other users can delete sessions they created.
               </Text>
             ) : null}

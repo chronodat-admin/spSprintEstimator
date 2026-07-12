@@ -57,6 +57,35 @@ npm run test:e2e:ui
 
 Tests run serially in one browser session. Session titles are prefixed with `E2E`.
 
+## AppSource screenshots (`appsource-screenshots.spec.ts`)
+
+Generates the marketplace screenshots from the **in-memory demo workshop**, so
+it needs no site setup and writes nothing to SharePoint. It appends
+`?estimatrFlags={"enableMockData":true}` to the page URL, clicks **Launch demo**,
+and walks the full experience while capturing 1366×768 PNGs.
+
+```powershell
+npm run test:e2e:screenshots
+```
+
+Output (overwrites in place) → `store-assets/generated/screenshots/`:
+
+| File | Screen |
+|------|--------|
+| `sprint-align-screenshot-01-home.png` | Home page with demo workshop banner |
+| `sprint-align-screenshot-02-sessions.png` | Live voting session (roster + poker cards) |
+| `sprint-align-screenshot-03-settings.png` | Settings → Branding (brand preview) |
+| `sprint-align-screenshot-04-results.png` | Revealed round results / consensus |
+| `sprint-align-screenshot-05-history.png` | Session history |
+
+The first three filenames are the `screenshotPaths` referenced in
+`config/package-solution.json`, so re-running the build repackages the refreshed
+images. It reuses the same saved Microsoft login as the other specs.
+
+> The demo workshop relies on the temporary `enableMockData` flag / `src/demo/`
+> folder. If that is removed before launch, generate screenshots by creating a
+> real session instead.
+
 ## Troubleshooting
 
 | Issue | Fix |

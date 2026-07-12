@@ -5,23 +5,25 @@ import {
   MessageBar,
   MessageBarType,
   PrimaryButton,
-  Spinner,
   Stack,
   TextField
 } from '@fluentui/react';
 import { parseSessionCodeFromUrl } from '../../utils/codeGenerator';
 import { APP_NAME, APP_TAGLINE } from '../../config/appMeta';
 import { useEstimatr } from '../../state/EstimatrContext';
-import { InfoTile, Page, ResponsiveGrid, Surface } from '../common/AppChrome';
+import { InfoTile, Page, PageLoader, ResponsiveGrid, Surface } from '../common/AppChrome';
 import { AppBrandIcon } from '../common/AppBrandIcon';
+import { ColorModeToggle } from '../common/ColorModeToggle';
 import { buildDemoEngineState, MOCK_DEMO_SESSION_CODE } from '../../demo/mockFixtures';
 import { SubscriptionTrialBanner } from '../Subscription/SubscriptionTrialBanner';
 
 export interface HomePageProps {
   onOpenSubscriptionSettings?: () => void;
+  /** Fired once the initial provisioning check completes, so the bootstrap loader can be dismissed. */
+  onReady?: () => void;
 }
 
-export const HomePage: React.FC<HomePageProps> = ({ onOpenSubscriptionSettings }) => {
+export const HomePage: React.FC<HomePageProps> = ({ onOpenSubscriptionSettings, onReady }) => {
   const { ui, setUi, orchestrator, setEngineState, showToast, provisioning, homeContent, featureFlags } = useEstimatr();
   const [checking, setChecking] = React.useState(true);
   const [canCreate, setCanCreate] = React.useState(true);
@@ -76,14 +78,14 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenSubscriptionSettings }
     }).catch(() => setCanCreate(true));
   }, [provisioning, setUi, handleJoin, orchestrator]);
 
+  React.useEffect(() => {
+    if (!checking) {
+      onReady?.();
+    }
+  }, [checking, onReady]);
+
   if (checking) {
-    return (
-      <Page>
-        <Surface>
-          <Spinner label={`Loading ${APP_NAME}`} />
-        </Surface>
-      </Page>
-    );
+    return <PageLoader label={`Loading ${APP_NAME}`} maxWidth={1160} />;
   }
 
   const needsSetup = !ui.isProvisioned;
@@ -110,7 +112,8 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenSubscriptionSettings }
               <div style={{ fontSize: 13, color: 'var(--estimatr-text-secondary, #64748b)', marginTop: 4 }}>{APP_TAGLINE}</div>
             </div>
           </div>
-          <Stack horizontal tokens={{ childrenGap: 8 }} wrap>
+          <Stack horizontal verticalAlign="center" tokens={{ childrenGap: 8 }} wrap>
+            <ColorModeToggle />
             <DefaultButton text="History" iconProps={{ iconName: 'History' }} onClick={() => setUi({ view: 'history' })} />
             <DefaultButton text="Settings" iconProps={{ iconName: 'Settings' }} onClick={() => setUi({ view: 'settings' })} />
           </Stack>
@@ -247,13 +250,29 @@ export const HomePage: React.FC<HomePageProps> = ({ onOpenSubscriptionSettings }
                 styles={{ root: { height: 44, borderRadius: 10, background: 'var(--estimatr-surface, #ffffff)', borderColor: 'var(--estimatr-surface, #ffffff)', color: 'var(--estimatr-brand-primary-dark, #1e40af)' }, rootHovered: { background: 'var(--estimatr-brand-primary-light, #eff6ff)', borderColor: 'var(--estimatr-brand-primary-light, #eff6ff)', color: 'var(--estimatr-brand-primary-dark, #1e40af)' } }}
               />
               {!canCreate && !needsSetup && (
-                <MessageBar messageBarType={MessageBarType.warning} styles={{ root: { borderRadius: 12, background: 'rgba(255,255,255,.92)' } }}>
+                <MessageBar
+                  messageBarType={MessageBarType.warning}
+                  styles={{
+                    root: { borderRadius: 12, background: 'rgba(255,255,255,.94)', color: '#1e293b' },
+                    icon: { color: '#b45309' },
+                    text: { color: '#1e293b' },
+                    innerText: { color: '#1e293b' }
+                  }}
+                >
                   {createPolicy === 'owners'
                     ? 'Session creation is restricted to site owners for this site.'
                     : 'Session creation requires site member permissions on this site.'}
                 </MessageBar>
               )}
-              <MessageBar messageBarType={MessageBarType.info} styles={{ root: { borderRadius: 12, background: 'rgba(255,255,255,.92)' } }}>
+              <MessageBar
+                messageBarType={MessageBarType.info}
+                styles={{
+                  root: { borderRadius: 12, background: 'rgba(255,255,255,.94)', color: '#1e293b' },
+                  icon: { color: '#1d4ed8' },
+                  text: { color: '#1e293b' },
+                  innerText: { color: '#1e293b' }
+                }}
+              >
                 Works for poker, confidence, dot voting, and surveys.
               </MessageBar>
             </Stack>
