@@ -35,7 +35,7 @@ function StepIcon({ status }: { status: OnboardingStep['status'] }): React.React
   if (status === 'error') {
     return <Icon iconName="ErrorBadge" styles={{ root: { color: '#b91c1c', fontSize: 18 } }} />;
   }
-  return <Icon iconName="CircleRing" styles={{ root: { color: '#94a3b8', fontSize: 18 } }} />;
+  return <Icon iconName="CircleRing" styles={{ root: { color: 'var(--estimatr-text-muted, #94a3b8)', fontSize: 18 } }} />;
 }
 
 export const ProvisioningOnboarding: React.FC<ProvisioningOnboardingProps> = ({
@@ -62,11 +62,11 @@ export const ProvisioningOnboarding: React.FC<ProvisioningOnboardingProps> = ({
       <Stack tokens={{ childrenGap: 16 }}>
         <Stack horizontal horizontalAlign="space-between" verticalAlign="start" tokens={{ childrenGap: 12 }}>
           <Stack tokens={{ childrenGap: 4 }}>
-            <Text styles={{ root: { fontSize: 24, fontWeight: 800, color: '#0f172a' } }}>
+            <Text styles={{ root: { fontSize: 24, fontWeight: 800, color: 'var(--estimatr-text-primary, #0f172a)' } }}>
               <Icon iconName="Rocket" styles={{ root: { marginRight: 8 } }} />
               {APP_NAME} setup
             </Text>
-            <Text styles={{ root: { color: '#64748b', lineHeight: 1.55 } }}>
+            <Text styles={{ root: { color: 'var(--estimatr-text-secondary, #64748b)', lineHeight: 1.55 } }}>
               Create the SharePoint lists and default deck this site needs for planning poker and agile voting sessions.
             </Text>
           </Stack>
@@ -91,19 +91,19 @@ export const ProvisioningOnboarding: React.FC<ProvisioningOnboardingProps> = ({
                     root: {
                       fontWeight: step.status === 'running' ? 700 : 600,
                       color: step.status === 'error'
-                        ? '#b91c1c'
+                        ? 'var(--estimatr-danger-text, #b91c1c)'
                         : step.status === 'done'
-                          ? '#047857'
+                          ? 'var(--estimatr-success-text, #047857)'
                           : step.status === 'running'
-                            ? '#1d4ed8'
-                            : '#64748b'
+                            ? 'var(--estimatr-brand-primary, #1d4ed8)'
+                            : 'var(--estimatr-text-secondary, #64748b)'
                     }
                   }}
                 >
                   {step.label}
                 </Text>
                 {step.message && (
-                  <Text variant="small" styles={{ root: { color: '#94a3b8' } }}>{step.message}</Text>
+                  <Text variant="small" styles={{ root: { color: 'var(--estimatr-text-muted, #94a3b8)' } }}>{step.message}</Text>
                 )}
               </Stack>
             </Stack>
@@ -111,7 +111,7 @@ export const ProvisioningOnboarding: React.FC<ProvisioningOnboardingProps> = ({
         </Stack>
 
         {isRunning && (
-          <Text variant="small" styles={{ root: { color: '#64748b', fontStyle: 'italic' } }}>
+          <Text variant="small" styles={{ root: { color: 'var(--estimatr-text-secondary, #64748b)', fontStyle: 'italic' } }}>
             Creating lists in the background — the SharePoint page stays responsive. This may take a minute.
           </Text>
         )}

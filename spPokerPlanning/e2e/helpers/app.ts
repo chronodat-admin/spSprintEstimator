@@ -20,6 +20,17 @@ export const STORE_SCREENSHOT_DIR = path.join(
 /** Store screenshot canvas — Office Store recommends 1366×768 PNGs. */
 export const STORE_SCREENSHOT_SIZE = { width: 1366, height: 768 } as const;
 
+/** Full-page (whole-scroll) captures for review live in a separate folder. */
+export const FULL_PAGE_SCREENSHOT_DIR = path.join(
+  __dirname,
+  '..',
+  '..',
+  'store-assets',
+  'generated',
+  'screenshots',
+  'full-page'
+);
+
 export function requireBaseUrl(): string {
   const baseURL = process.env.PLAYWRIGHT_BASE_URL;
   if (!baseURL) {
@@ -156,10 +167,38 @@ export function e2eTitle(prefix: string): string {
   return `E2E ${prefix} ${Date.now()}`;
 }
 
+/** Switches to a settings tab when already on the settings page. */
+export async function clickSettingsTab(page: Page, tabName: string): Promise<void> {
+  const tab = appRoot(page).getByRole('tab', { name: tabName });
+  await expect(tab).toBeVisible({ timeout: 30_000 });
+  await tab.click();
+}
+
+/** Opens settings from home (or any view with a Settings button), then a tab. */
 export async function openSettingsTab(page: Page, tabName: string): Promise<void> {
   await clickAppButton(page, 'Settings');
-  await expect(appRoot(page).getByRole('tab', { name: tabName })).toBeVisible({ timeout: 30_000 });
-  await appRoot(page).getByRole('tab', { name: tabName }).click();
+  await clickSettingsTab(page, tabName);
+}
+
+/** Leaves the active (including demo) session and returns to home. */
+export async function leaveSession(page: Page): Promise<void> {
+  await clickAppButton(page, 'Leave');
+  await expect(appRoot(page).getByText('Join a session')).toBeVisible({ timeout: 30_000 });
+}
+
+/**
+ * Returns to the home screen from any view. The lobby exposes a "Home" button
+ * while an active session exposes "Leave", so try whichever is present.
+ */
+export async function goHome(page: Page): Promise<void> {
+  const leave = appRoot(page).getByRole('button', { name: 'Leave', exact: true });
+  const home = appRoot(page).getByRole('button', { name: 'Home', exact: true });
+  if (await leave.isVisible().catch(() => false)) {
+    await leave.click();
+  } else if (await home.isVisible().catch(() => false)) {
+    await home.click();
+  }
+  await expect(appRoot(page).getByText('Join a session')).toBeVisible({ timeout: 30_000 });
 }
 
 export async function completeSessionWizard(page: Page, sessionTitle: string): Promise<void> {
@@ -171,7 +210,8 @@ export async function completeSessionWizard(page: Page, sessionTitle: string): P
   await clickAppButton(page, 'Continue');
   await clickAppButton(page, 'Continue');
   await clickAppButton(page, 'Create session and open lobby');
-  await expectHeading(page, /session lobby/i);
+  // "Session lobby" is an eyebrow label (text), not a heading; the heading is the session title.
+  await expect(appRoot(page).getByText('Session lobby').first()).toBeVisible({ timeout: 60_000 });
 }
 
 export async function readJoinCode(page: Page): Promise<string> {
@@ -196,8 +236,19 @@ export async function startSessionFromLobby(page: Page): Promise<void> {
 }
 
 export async function runSingleVotingRound(page: Page, voteLabel = 'Vote 5'): Promise<void> {
-  await clickAppButton(page, 'Start voting on this item');
-  await expect(appRoot(page).getByText('Choose your estimate')).toBeVisible({ timeout: 30_000 });
+  const startButton = appRoot(page).getByRole('button', { name: 'Start voting on this item', exact: true });
+  const estimatePrompt = appRoot(page).getByText('Choose your estimate');
+  await startButton.click();
+  // Opening a round writes to SharePoint; if the first click doesn't take, retry
+  // once before failing so a slow round-open doesn't flake the run.
+  try {
+    await expect(estimatePrompt).toBeVisible({ timeout: 15_000 });
+  } catch {
+    if (await startButton.isVisible().catch(() => false)) {
+      await startButton.click();
+    }
+    await expect(estimatePrompt).toBeVisible({ timeout: 30_000 });
+  }
   await appRoot(page).getByRole('button', { name: voteLabel }).click();
   await expect(appRoot(page).getByText(/your vote:/i)).toBeVisible({ timeout: 30_000 });
   await clickAppButton(page, 'Reveal votes (R)');
@@ -206,12 +257,11 @@ export async function runSingleVotingRound(page: Page, voteLabel = 'Vote 5'): Pr
 }
 
 export async function joinSessionWithCode(page: Page, code: string): Promise<void> {
-  await clickAppButton(page, 'Home');
-  await expect(appRoot(page).getByText('Join a session')).toBeVisible({ timeout: 30_000 });
+  await goHome(page);
   await appRoot(page).getByLabel('Session code').fill(code);
   await clickAppButton(page, 'Join session');
   await expect(
-    appRoot(page).getByRole('heading', { name: /session lobby|current backlog item/i }).first()
+    appRoot(page).getByText(/session lobby|current backlog item/i).first()
   ).toBeVisible({ timeout: 60_000 });
 }
 
@@ -244,4 +294,31 @@ export async function saveStoreScreenshot(page: Page, fileName: string): Promise
     path: path.join(STORE_SCREENSHOT_DIR, fileName),
     clip: { x: 0, y: 0, width: STORE_SCREENSHOT_SIZE.width, height: STORE_SCREENSHOT_SIZE.height }
   });
+}
+
+/**
+ * Captures the entire app surface (whole scroll height) into
+ * store-assets/generated/screenshots/full-page. Screenshots the app host element
+ * so the SharePoint page chrome/status bar is excluded and every screen is
+ * captured top-to-bottom regardless of viewport height.
+ */
+export async function saveFullPageScreenshot(page: Page, fileName: string): Promise<void> {
+  fs.mkdirSync(FULL_PAGE_SCREENSHOT_DIR, { recursive: true });
+  await page.evaluate(() => window.scrollTo(0, 0));
+  // Let Fluent animations / spinners settle before the shot.
+  await page.waitForTimeout(700);
+  await appRoot(page).screenshot({ path: path.join(FULL_PAGE_SCREENSHOT_DIR, fileName) });
+}
+
+/**
+ * Switches the app color mode via the Light/Dark toggle on the home screen.
+ * The preference is stored per-site in localStorage, so it persists across the
+ * rest of the tour and is reset when the context closes. Must be called from home.
+ */
+export async function setColorMode(page: Page, mode: 'light' | 'dark'): Promise<void> {
+  const label = mode === 'dark' ? 'Dark' : 'Light';
+  const toggle = appRoot(page).getByRole('button', { name: label, exact: true });
+  await expect(toggle).toBeVisible({ timeout: 30_000 });
+  await toggle.click();
+  await page.waitForTimeout(500);
 }

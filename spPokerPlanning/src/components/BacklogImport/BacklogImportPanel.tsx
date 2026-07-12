@@ -146,8 +146,8 @@ export const BacklogImportPanel: React.FC<BacklogImportProps> = ({
         )}
 
         <Stack tokens={{ childrenGap: 8 }} styles={{ root: { paddingTop: 4 } }}>
-          <Text styles={{ root: { fontWeight: 600, color: '#0f172a' } }}>Bulk load</Text>
-          <Text variant="small" styles={{ root: { color: '#64748b', lineHeight: '1.45' } }}>
+          <Text styles={{ root: { fontWeight: 600, color: 'var(--estimatr-text-primary, #0f172a)' } }}>Bulk load</Text>
+          <Text variant="small" styles={{ root: { color: 'var(--estimatr-text-secondary, #64748b)', lineHeight: '1.45' } }}>
             Load up to 20 unestimated user stories (most recently changed first).
           </Text>
           <DefaultButton text="Load unestimated stories" iconProps={{ iconName: 'Download' }} onClick={handleAdoLoad} />
@@ -161,8 +161,8 @@ export const BacklogImportPanel: React.FC<BacklogImportProps> = ({
         </Stack>
 
         <Stack tokens={{ childrenGap: 8 }} styles={{ root: { paddingTop: 8, borderTop: '1px solid #e2e8f0' } }}>
-          <Text styles={{ root: { fontWeight: 600, color: '#0f172a' } }}>Add by work item number</Text>
-          <Text variant="small" styles={{ root: { color: '#64748b', lineHeight: '1.45' } }}>
+          <Text styles={{ root: { fontWeight: 600, color: 'var(--estimatr-text-primary, #0f172a)' } }}>Add by work item number</Text>
+          <Text variant="small" styles={{ root: { color: 'var(--estimatr-text-secondary, #64748b)', lineHeight: '1.45' } }}>
             Look up a specific item by ID and add it to the session. Repeat as many times as you need.
           </Text>
           <Stack horizontal tokens={{ childrenGap: 8 }} verticalAlign="end" wrap>
@@ -191,7 +191,7 @@ export const BacklogImportPanel: React.FC<BacklogImportProps> = ({
 
         {adoImportedItems.length > 0 && (
           <Stack tokens={{ childrenGap: 6 }} styles={{ root: { paddingTop: 8, borderTop: '1px solid #e2e8f0' } }}>
-            <Text styles={{ root: { fontWeight: 600, color: '#0f172a' } }}>
+            <Text styles={{ root: { fontWeight: 600, color: 'var(--estimatr-text-primary, #0f172a)' } }}>
               {adoImportedItems.length} Azure DevOps item{adoImportedItems.length === 1 ? '' : 's'} queued
             </Text>
             {adoImportedItems.map((item) => (

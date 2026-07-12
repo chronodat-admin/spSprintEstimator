@@ -1,0 +1,94 @@
+<!--
+  Microsoft Partner Center — SharePoint solution offer
+  Paste into: Marketplace offers → [your offer] → Offer setup → Properties → Description
+  Supported HTML: https://learn.microsoft.com/en-us/partner-center/marketplace-offers/supported-html-tags
+  Policy 1170.1: declare all SPFx component types (client-side web part, full-page app).
+  Use Preview in Partner Center before publish. Inline styles with !important (as used on
+  certified SharePoint solution listings) render as button-style links in the store UI.
+-->
+
+<p><b>Sprint Align</b> is a <b>SharePoint Framework (SPFx) solution</b> for <b>SharePoint Online</b> that helps Scrum teams, product owners, and delivery leads run <b>planning poker</b> and other agile estimation sessions directly inside Microsoft 365 — without exporting backlog data to a separate SaaS tool.</p>
+
+<p>Deploy the solution once to your SharePoint Online tenant app catalog, add the web part to a modern SharePoint page or publish it as a full-page app, and use the built-in setup wizard to automatically provision the required SharePoint lists. Sprint Align provides join-by-code sessions, private voting, facilitator reveal, round statistics (average, median, range, and outliers), custom card decks, session history, CSV export, and site-level branding and governance — while keeping all session data securely within your Microsoft 365 tenant.</p>
+
+<p><b>Ideal for</b><br>
+Scrum teams, agile coaches, product owners, delivery leads, and any organization that estimates story points, confidence, or priorities during sprint planning, backlog grooming, or refinement — and wants estimation to stay inside SharePoint and Microsoft Teams.</p>
+
+<p><b>Key Features</b></p>
+<ul>
+<li>Planning poker with Fibonacci and custom card decks</li>
+<li>Six vote types in one app: planning poker, confidence (1–5), fist-of-five, roman votes, dot voting, and quick surveys</li>
+<li>Join-by-code sessions — participants enter a six-character code or open a shared link; identity comes from Microsoft 365 automatically</li>
+<li>Private voting until the facilitator reveals the round together</li>
+<li>Live participation status so facilitators know when everyone has voted</li>
+<li>Round results with average, median, range, and outlier highlighting</li>
+<li>Facilitator controls: reveal, re-vote, skip, advance items, and end session</li>
+<li>Custom site-level card decks via the deck editor</li>
+<li>Session history with velocity-by-sprint-tag chart</li>
+<li>CSV export of session results for reporting</li>
+<li>Full-page immersive layout with optional SharePoint chrome hiding for workshop-style sessions</li>
+<li>Light and dark mode with custom brand colors and editable home-page hero text</li>
+<li>Demo workshop mode to explore the experience before provisioning (no data saved to SharePoint)</li>
+<li>Unified Settings hub: setup, governance, branding, home page, layout, subscription, and advanced options</li>
+</ul>
+
+<p><b>Microsoft Teams Integration</b><br>
+After deployment, administrators can use <b>Sync to Teams</b> from the SharePoint App Catalog to make the solution available in Microsoft Teams as a personal app or channel tab. Participants join the same estimation session from Teams or SharePoint — backed by the same SharePoint lists on your site.</p>
+
+<p><b>Optional Integrations (feature flags)</b></p>
+<p>Site administrators can enable optional capabilities in <b>Settings → Advanced</b>. Core estimation does <b>not</b> require data to leave SharePoint:</p>
+<ul>
+<li><b>Microsoft Graph profile photos (optional):</b> Shows participant profile photos in the team roster. Requires Microsoft Graph <b>User.ReadBasic.All</b>, approved once by a tenant administrator in SharePoint Admin Center → API access.</li>
+<li><b>Microsoft Graph presence (optional):</b> Shows Teams presence indicators for participants. Requires Microsoft Graph <b>Presence.Read.All</b>, approved once in SharePoint Admin Center → API access.</li>
+<li><b>Azure DevOps backlog import (optional):</b> Import work items and write agreed story points back to Azure DevOps. Requires Azure DevOps <b>user_impersonation</b>, approved once in SharePoint Admin Center → API access. Disabled by default.</li>
+</ul>
+
+<p><b>Security &amp; Data Residency</b></p>
+<ul>
+<li><b>100% tenant-resident:</b> Sessions, votes, decks, and settings are stored in standard SharePoint lists inside your Microsoft 365 tenant</li>
+<li><b>No external estimation backend:</b> Core planning poker and voting do not require data to leave SharePoint</li>
+<li><b>Microsoft 365 security inherited:</b> Uses SharePoint permissions, Microsoft Entra ID authentication, conditional access, and DLP policies</li>
+<li><b>You own the data:</b> Uninstalling leaves your SharePoint lists and session history intact</li>
+</ul>
+
+<p><b>Component Information</b> (SPFx component types in this package — policy 1170.1)</p>
+<ul>
+<li><b>Client-side web part</b> — &quot;Sprint Align&quot; — for modern SharePoint pages and (via Sync to Teams) Microsoft Teams channel tabs and personal apps</li>
+<li><b>Full-page app</b> — the same &quot;Sprint Align&quot; web part published as a SharePoint full-page application (SharePointFullPage host) for a dedicated immersive estimation workspace</li>
+</ul>
+
+<p><b>Prerequisites</b></p>
+<ul>
+<li>Microsoft 365 with SharePoint Online (SharePoint Server / on-premises is not supported)</li>
+<li>Tenant administrator permissions to deploy SPFx solutions to the app catalog</li>
+<li>Site owner permission for first-time list provisioning</li>
+<li>Modern SharePoint pages (SharePoint Framework 1.21)</li>
+<li>Microsoft Teams (optional) for Teams tab and personal app integration</li>
+<li>Azure DevOps (optional) for backlog import and story-point writeback</li>
+</ul>
+
+<p><b>Limitations &amp; Out of Scope</b></p>
+<ul>
+<li><b>SharePoint Online only</b> — not supported on SharePoint Server or on-premises farms</li>
+<li><b>One license per site collection</b> — data and configuration are scoped to the licensed site collection</li>
+<li><b>Setup wizard required</b> — a site owner must run first-time list provisioning before sessions can be saved to SharePoint</li>
+<li><b>No native mobile app</b> — runs in supported desktop and mobile browsers and Microsoft Teams</li>
+<li><b>Azure DevOps import is optional</b> — core estimation works without Azure DevOps or any external integration</li>
+<li><b>Subscription required after trial</b> — a 14-day free trial is included; a yearly subscription is required to continue after the trial</li>
+</ul>
+
+<p><b>Recommended Browsers</b></p>
+<ul>
+<li>Microsoft Edge</li>
+<li>Google Chrome</li>
+</ul>
+
+<p><b>Licensing</b><br>
+One license is required per SharePoint site collection. The free trial can be converted to a full version by purchasing a subscription from Chronodat. One subscription covers unlimited users in the licensed site collection.</p>
+
+<p><b>Get Started</b><br>
+Click <b>Get it now</b> to start your fully featured <b>14-day free trial</b>. Deploy the solution to your Microsoft 365 tenant App Catalog, add Sprint Align to a SharePoint page (or publish as a full-page app), and launch the built-in setup wizard. Share the join code with your team and start estimating.</p>
+
+<p><b>Help &amp; Support</b></p>
+<p><a href="https://www.chronodat.com/sprint-align" target="_blank" style="float: left !important; margin-right: 10px !important; font-size: 14px !important; font-weight: 600 !important; color: #0F234B !important; background: #FFB900 !important; padding: 8px 14px !important; border-radius: 5px !important; text-decoration: none !important; border: 1px solid #E6A800 !important;" title="Sprint Align product page">Product page</a><a href="https://www.chronodat.com/wiki/sprint-align" target="_blank" style="float: left !important; margin-right: 10px !important; font-size: 14px !important; font-weight: 600 !important; color: #0F234B !important; background: #FFB900 !important; padding: 8px 14px !important; border-radius: 5px !important; text-decoration: none !important; border: 1px solid #E6A800 !important;" title="Knowledge base and documentation">Knowledge base</a><a href="https://www.chronodat.com/contact" target="_blank" style="float: left !important; font-size: 14px !important; font-weight: 600 !important; color: #0F234B !important; background: #FFB900 !important; padding: 8px 14px !important; border-radius: 5px !important; text-decoration: none !important; border: 1px solid #E6A800 !important;" title="Support and contact">Support</a></p>
+<p><br></p>

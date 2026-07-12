@@ -37,12 +37,12 @@ export const SubscriptionPaywall: React.FC<ISubscriptionPaywallProps> = ({
           <Text variant="xLargePlus" styles={{ root: { fontWeight: 800, textAlign: 'center' } }}>
             Your free trial has ended
           </Text>
-          <Text styles={{ root: { color: '#64748b', textAlign: 'center', lineHeight: 1.55 } }}>
+          <Text styles={{ root: { color: 'var(--estimatr-text-secondary, #64748b)', textAlign: 'center', lineHeight: 1.55 } }}>
             Your {status?.trialDaysTotal ?? 14}-day trial for {DEFAULT_APP_TITLE} has expired.
             Subscribe to the yearly plan to restore access for everyone on this SharePoint site.
           </Text>
           {status?.trialEndsAt ? (
-            <Text variant="small" styles={{ root: { color: '#94a3b8' } }}>
+            <Text variant="small" styles={{ root: { color: 'var(--estimatr-text-muted, #94a3b8)' } }}>
               Trial ended {new Date(status.trialEndsAt).toLocaleDateString()}.
             </Text>
           ) : null}

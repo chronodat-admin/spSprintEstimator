@@ -6,6 +6,7 @@ import {
   bootstrapDemoApp,
   clickAppButton,
   launchDemoWorkshop,
+  leaveSession,
   openSettingsTab,
   saveStoreScreenshot,
   STORE_SCREENSHOT_SIZE
@@ -83,8 +84,7 @@ test.describe('Sprint Align — AppSource screenshots (demo data)', () => {
   });
 
   test('04 — settings and branding', { tag: '@screenshots' }, async () => {
-    await clickAppButton(page, 'Home');
-    await expect(appRoot(page).getByText('Join a session')).toBeVisible({ timeout: 30_000 });
+    await leaveSession(page);
 
     await openSettingsTab(page, 'Branding');
     await expect(appRoot(page).getByRole('tab', { name: 'Branding' })).toBeVisible();

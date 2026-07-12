@@ -129,7 +129,7 @@ export const Lobby: React.FC = () => {
               <Stack horizontal horizontalAlign="space-between" verticalAlign="center" wrap tokens={{ childrenGap: 10 }}>
                 <Stack tokens={{ childrenGap: 4 }}>
                   <div style={sectionEyebrowStyle}>Participants</div>
-                  <Text styles={{ root: { fontSize: 24, fontWeight: 800, color: '#0f172a' } }}>{roster.length} joined</Text>
+                  <Text styles={{ root: { fontSize: 24, fontWeight: 800, color: 'var(--estimatr-text-primary, #0f172a)' } }}>{roster.length} joined</Text>
                 </Stack>
                 <DefaultButton text="Copy invite link" iconProps={{ iconName: 'Copy' }} onClick={handleCopy} />
               </Stack>
@@ -137,7 +137,7 @@ export const Lobby: React.FC = () => {
                 {roster.map((p) => <PersonRow key={p.id} participant={p} presence={presences[p.id]} />)}
                 {roster.length === 0 && (
                   <Surface padding={20} tone="soft">
-                    <Text styles={{ root: { color: '#64748b', lineHeight: '1.5' } }}>No participants yet. Share the invite to get started.</Text>
+                    <Text styles={{ root: { color: 'var(--estimatr-text-secondary, #64748b)', lineHeight: '1.5' } }}>No participants yet. Share the invite to get started.</Text>
                   </Surface>
                 )}
               </Stack>

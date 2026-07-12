@@ -128,7 +128,7 @@ export const ResultsPanel: React.FC<ResultsPanelProps> = ({
         <div style={{ color: 'var(--estimatr-brand-primary, #2563eb)', fontSize: 12, fontWeight: 800, letterSpacing: '1.4px', textTransform: 'uppercase' }}>
           Round complete
         </div>
-        <Text styles={{ root: { fontSize: 28, fontWeight: 800, color: '#0f172a' } }}>Round results</Text>
+        <Text styles={{ root: { fontSize: 28, fontWeight: 800, color: 'var(--estimatr-text-primary, #0f172a)' } }}>Round results</Text>
         <Text styles={{ root: { color: theme.palette.neutralSecondary, lineHeight: '1.5' } }}>
           {sessionType === SessionType.Dot
             ? 'Review dot totals across options before moving on.'
@@ -392,7 +392,7 @@ export const SurveyVotingBoard: React.FC<SurveyVotingBoardProps> = ({
 
   return (
     <Stack tokens={{ childrenGap: 12 }}>
-      {question && <Text variant="mediumPlus" styles={{ root: { fontWeight: 800, color: '#0f172a', fontSize: 18 } }}>{question}</Text>}
+      {question && <Text variant="mediumPlus" styles={{ root: { fontWeight: 800, color: 'var(--estimatr-text-primary, #0f172a)', fontSize: 18 } }}>{question}</Text>}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 12 }}>
         {choices.map((choice) => {
           const selected = selectedValue === choice;

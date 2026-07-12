@@ -2,27 +2,84 @@
 
 Generated assets live in `store-assets/generated/marketing/`. Use these prompts in any image model (DALL·E, Midjourney, Adobe Firefly, etc.) to recreate or iterate.
 
-## Official logos (required on every image)
+## Logos — never let AI draw the Chronodat wordmark
 
-Attach these reference files so the model copies them exactly — do **not** let AI redraw logos.
+AI models garble and duplicate the Chronodat wordmark. So the AI must **not** draw
+it at all: generate the artwork with a **clean empty bottom strip**, then composite
+the real wordmark with Python.
 
-| Logo | Path | Description |
-|------|------|-------------|
-| **Sprint Align app icon** | `store-assets/sprint-align-master-icon.png` | Navy square, white poker cards **5** and **8**, yellow top stripe, yellow checkmark badge |
-| **Chronodat wordmark** | `store-assets/brand/chronodat-logo.png` | White geometric **CHRONODAT** text (triangular **A**) on dark background |
+| Logo | Path | How it gets on the image |
+|------|------|--------------------------|
+| **Sprint Align app icon** | `store-assets/generated/appicon-96.png` | Pass as a **reference image** so the icon stays consistent; AI may render it (top-left/hero center) |
+| **Chronodat wordmark** | `store-assets/brand/chronodat-logo.png` | **Composited by Python** (`embed-marketing-brand.py`), bottom-left "Powered by CHRONODAT" — never AI-drawn |
 
-**Placement convention**
+**Workflow**
 
-- Sprint Align icon: top-left or hero center (primary)
-- Chronodat wordmark: bottom-right footer with “Powered by Chronodat”
+1. Generate each image with the app-icon reference and the "no Chronodat logo" suffix below (reserve a clean bottom ~14% strip).
+2. Save into `store-assets/generated/marketing/` as `sprint-align-infographic-*.png`.
+3. Stamp the real wordmark once: `python store-assets/scripts/embed-marketing-brand.py` (logo-only; auto light/dark ink; bottom-left).
 
 Regenerate Chronodat PNG from SVG: `python store-assets/brand/extract-chronodat-logo.py`
 
 **Prompt suffix (append to every generation):**
 
 ```
-CRITICAL: Use the EXACT Sprint Align app icon from reference image 1 unchanged. Use the EXACT Chronodat wordmark from reference image 2 unchanged in the footer. Do not redraw, simplify, or replace either logo.
+CRITICAL: Use the EXACT Sprint Align app icon from the reference image, unchanged. Do NOT include any Chronodat logo, wordmark, "CT Chronodat", or "Powered by" text anywhere in the image. Leave the bottom ~14% as a clean, empty, unobstructed strip of plain background so the real logo can be composited later.
 ```
+
+## Store screenshots — real UI embedded + info footer (CURRENT / recommended)
+
+These are the images actually submitted to AppSource. The AI embeds the **real
+app screenshot** (passed as reference) inside a branded navy infographic, and
+Python adds a crisp **footer strip** of platform / trust facts and resizes to the
+exact store size. AI never draws footer text or the Chronodat logo.
+
+**Pipeline**
+
+1. Generate 4 infographics with the reference screenshot + app icon and the
+   prompt below. Each **reserves a clean, empty, solid deep-navy bottom band**
+   (~25%) for the footer.
+2. Stage the clean PNGs into `generated/marketing/_ai_clean/`.
+3. `python store-assets/scripts/build-store-infographics.py` → draws the footer
+   pill row and writes 1366×768 (≤1024 KB) PNGs to `generated/screenshots/`.
+
+**Footer facts (drawn by the AI, baked into the image):**
+
+- Runs in SharePoint & Teams
+- Microsoft 365 sign-in
+- Data stays in your tenant
+- No external backend
+- Secure by design
+
+The AI renders the footer strip directly (it produces a cleaner, better-integrated
+footer than compositing). Only the crop-to-store-size step runs in Python
+(`build-store-ai.py`, center crop to 1366×768). Still never let AI draw the
+Chronodat logo.
+
+**Prompt template (per scene — swap headline/subtitle/bullets):**
+
+```
+Premium enterprise SaaS marketing infographic, 16:9 landscape. Deep navy (#0f172a)
+background with a subtle blue-to-teal glow on the right and faint gold sparkle dots;
+lots of clean negative space. EMBED the FIRST reference image (an app screenshot)
+EXACTLY as-is and unaltered — do NOT redraw, restyle, crop content, or change any
+text in it — inside a floating browser window with rounded corners and a soft
+drop shadow, occupying the right ~55% of the UPPER area. Left column: small square
+app icon (SECOND reference) beside "Sprint Align" in white at the top; bold white
+headline <HEADLINE>; slate-grey subtitle <SUBTITLE>; three lime-green (#c1e316)
+bullet dots with white labels <BULLETS>.
+FOOTER: at the very bottom draw a solid deep-navy footer strip with a thin
+lime-green (#c1e316) top divider line, containing ONE centered row of five small
+rounded pill badges, each with a small lime dot and crisp, correctly-spelled white
+text reading exactly: "Runs in SharePoint & Teams", "Microsoft 365 sign-in",
+"Data stays in your tenant", "No external backend", "Secure by design".
+COMPOSITION: this will be cropped to 16:9 — keep the icon/title, all content and the
+footer strip inside the central 84% of the height, leaving a clean ~8% empty margin
+at the very top and very bottom. Do NOT draw any Chronodat logo or wordmark.
+Modern, minimal, high-end B2B look.
+```
+
+---
 
 ## Brand palette (keep consistent)
 

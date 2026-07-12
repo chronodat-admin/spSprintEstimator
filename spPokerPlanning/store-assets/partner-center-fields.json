@@ -1,40 +1,87 @@
 {
   "productName": "Sprint Align",
+  "publisherDisplayName": "Chronodat, LLC",
+  "offerType": "SharePoint solution (SPFx)",
   "shortDescription": "Planning poker, dot voting, and agile estimation for SharePoint and Teams. Session data stays in your site lists—no external backend.",
-  "longDescription": "Align your team on story points, confidence, and priorities inside Microsoft 365. Sprint Align is a SharePoint-native estimation app with planning poker, dot voting, surveys, join-by-code sessions, facilitator controls, CSV export, and site-level governance. Optional Graph photos, presence, and Azure DevOps import are available via administrator feature flags. Core sessions and votes are stored in SharePoint lists on the host site.",
-  "categories": ["Productivity"],
-  "keywords": [
+  "searchResultsSummary": "Planning poker for SharePoint and Teams — private votes, facilitator reveal, tenant-resident data.",
+  "longDescriptionPlain": "Sprint Align is a SharePoint-native planning poker and agile estimation app for Scrum teams. Run planning poker, confidence votes, dot voting, and surveys inside SharePoint Online and Microsoft Teams. Join by code, vote privately, reveal together, and save agreed estimates. All session data stays in SharePoint lists on your site — no external backend.",
+  "categories": [
+    "Productivity",
+    "Workflow & Process Management",
+    "IT/admin"
+  ],
+  "industries": [
+    "Professional Services",
+    "Education"
+  ],
+  "searchKeywords": [
     "planning poker",
     "agile estimation",
-    "story points",
-    "sprint planning",
-    "SharePoint",
-    "Microsoft Teams",
-    "dot voting",
-    "scrum"
+    "SharePoint planning poker"
   ],
-  "searchKeywords": "planning poker agile estimation story points sprint planning scrum dot voting SharePoint Teams",
-  "supportUrl": "https://your-domain.com/support",
-  "privacyUrl": "https://your-domain.com/privacy",
-  "termsOfUseUrl": "https://your-domain.com/terms",
-  "supportEmail": "support@your-domain.com",
+  "searchKeywordsExtended": "planning poker, agile estimation, story points, sprint planning, scrum, dot voting, fist of five, confidence vote, SharePoint, Microsoft Teams, retrospective, backlog grooming, facilitator, estimation session, planning poker SharePoint",
+  "supportedHosts": [
+    "SharePointWebPart",
+    "SharePointFullPage",
+    "TeamsTab",
+    "TeamsPersonalApp"
+  ],
+  "supportUrl": "https://www.chronodat.com/wiki/sprint-align",
+  "privacyUrl": "https://www.chronodat.com/Privacy",
+  "termsOfUseUrl": "https://www.chronodat.com/terms-conditions",
+  "productPageUrl": "https://www.chronodat.com/sprint-align",
+  "knowledgeBaseUrl": "https://www.chronodat.com/wiki/sprint-align",
+  "supportEmail": "support@chronodat.com",
+  "subscriptionProductSlug": "sprint-align",
+  "licensingModel": "One license per SharePoint site collection; 14-day free trial; unlimited users in licensed site",
   "screenshots": [
     {
       "file": "generated/screenshots/sprint-align-screenshot-01-home.png",
-      "caption": "Join sessions with a code or start a new estimation workshop from a branded full-page home screen."
+      "caption": "Home — Join sessions with a six-character code or start a new estimation workshop from a branded full-page home screen."
     },
     {
-      "file": "generated/screenshots/sprint-align-screenshot-02-sessions.png",
-      "caption": "Facilitators run rounds, track participation, and reveal team estimates item by item."
+      "file": "generated/screenshots/sprint-align-screenshot-02-voting.png",
+      "caption": "Live voting — Everyone votes privately; the facilitator tracks live participation and reveals the round together."
     },
     {
-      "file": "generated/screenshots/sprint-align-screenshot-03-settings.png",
-      "caption": "Site owners provision lists, set retention, branding, layout, and session-creation rules."
+      "file": "generated/screenshots/sprint-align-screenshot-03-results.png",
+      "caption": "Results — See average, median, range, and outliers at a glance, then save the agreed final estimate."
+    },
+    {
+      "file": "generated/screenshots/sprint-align-screenshot-04-settings.png",
+      "caption": "Settings — Site owners provision lists, set retention, branding, layout, and session-creation rules."
+    },
+    {
+      "file": "generated/screenshots/sprint-align-screenshot-05-how-it-works.png",
+      "caption": "How it works — End-to-end scrum flow: facilitator sets up, team joins, votes privately, reveals together, and agrees on estimates."
     }
   ],
   "logos": {
     "largePng": "generated/store-logo-300.png",
     "mediumPng": "generated/store-logo-216.png"
   },
-  "releaseNotes": "Sprint Align v1.1.0.0 — marketplace launch with unified Settings, custom branding, full-page layout, six vote types, and SharePoint-native data storage."
+  "htmlDescriptionFile": "docs/store-submission/partner-center-long-description.html",
+  "releaseNotes": "Sprint Align v1.1.3.29 — planning poker and six vote types, join-by-code sessions, private voting with facilitator reveal, custom decks, session history, CSV export, unified Settings hub, full-page layout, and SharePoint-native data storage.",
+  "componentGuids": {
+    "solution": "72d67433-2969-4168-9f32-34f6c9b994a0",
+    "feature": "5d3383f9-3ad9-4baa-93ee-4cf6bb322d02",
+    "webPart": "28aa74f7-6fa5-46b3-8eeb-52e0619be118"
+  },
+  "apiPermissions": [
+    {
+      "resource": "Microsoft Graph",
+      "scope": "User.ReadBasic.All",
+      "purpose": "Optional profile photos (feature flag)"
+    },
+    {
+      "resource": "Microsoft Graph",
+      "scope": "Presence.Read.All",
+      "purpose": "Optional Teams presence (feature flag)"
+    },
+    {
+      "resource": "Azure DevOps",
+      "scope": "user_impersonation",
+      "purpose": "Optional backlog import and story-point writeback (feature flag)"
+    }
+  ]
 }

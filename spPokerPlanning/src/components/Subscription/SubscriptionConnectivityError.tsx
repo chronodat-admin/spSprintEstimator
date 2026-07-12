@@ -31,16 +31,16 @@ export const SubscriptionConnectivityError: React.FC<ISubscriptionConnectivityEr
     <Page maxWidth={640}>
       <Surface padding={36}>
         <Stack horizontalAlign="center" tokens={{ childrenGap: 16 }}>
-          <Icon iconName="PlugDisconnected" styles={{ root: { fontSize: 40, color: '#94a3b8' } }} />
+          <Icon iconName="PlugDisconnected" styles={{ root: { fontSize: 40, color: 'var(--estimatr-text-muted, #94a3b8)' } }} />
           <Text variant="xLargePlus" styles={{ root: { fontWeight: 800, textAlign: 'center' } }}>
             Can&apos;t reach the subscription service
           </Text>
-          <Text styles={{ root: { color: '#64748b', textAlign: 'center', lineHeight: 1.55 } }}>
+          <Text styles={{ root: { color: 'var(--estimatr-text-secondary, #64748b)', textAlign: 'center', lineHeight: 1.55 } }}>
             {DEFAULT_APP_TITLE} could not verify your subscription because the licensing service is
             currently unreachable. This is usually a temporary network, firewall, or proxy issue —
             not a problem with your subscription.
           </Text>
-          <Text variant="small" styles={{ root: { color: '#94a3b8', textAlign: 'center' } }}>
+          <Text variant="small" styles={{ root: { color: 'var(--estimatr-text-muted, #94a3b8)', textAlign: 'center' } }}>
             Your SharePoint data is unaffected. Please try again in a few moments, or ask your IT
             administrator to allow access to the subscription service.
           </Text>

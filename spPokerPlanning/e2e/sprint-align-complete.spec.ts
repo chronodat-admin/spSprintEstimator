@@ -4,9 +4,11 @@ import {
   appRoot,
   bootstrapApp,
   clickAppButton,
+  clickSettingsTab,
   completeSessionWizard,
   e2eTitle,
   expectHeading,
+  goHome,
   joinSessionWithCode,
   openSettingsTab,
   readJoinCode,
@@ -50,7 +52,7 @@ test.describe('Sprint Align complete flow', () => {
     await expect(
       appRoot(page).getByText(/subscription checking is not configured|yearly subscription|trial days remaining/i).first()
     ).toBeVisible({ timeout: 30_000 });
-    await openSettingsTab(page, 'Setup');
+    await clickSettingsTab(page, 'Setup');
     await expect(appRoot(page).getByText(/site setup/i).first()).toBeVisible();
     await clickAppButton(page, 'Back home');
   });
@@ -67,7 +69,7 @@ test.describe('Sprint Align complete flow', () => {
     const page = suite!.page;
     await completeSessionWizard(page, sessionTitle);
     joinCode = await readJoinCode(page);
-    await expect(appRoot(page).getByText(joinCode)).toBeVisible();
+    await expect(appRoot(page).getByText(joinCode).first()).toBeVisible();
     await expect(appRoot(page).getByText(/participants/i).first()).toBeVisible();
   });
 
@@ -94,12 +96,11 @@ test.describe('Sprint Align complete flow', () => {
 
   test('navigates to deck editor from settings', async () => {
     const page = suite!.page;
-    await clickAppButton(page, 'Home');
-    await clickAppButton(page, 'Settings');
+    await goHome(page);
     await openSettingsTab(page, 'Governance');
     await clickAppButton(page, 'Manage decks');
     await expectHeading(page, /manage planning poker card values/i);
-    await clickAppButton(page, 'Back');
+    await clickAppButton(page, 'Back to settings');
     await clickAppButton(page, 'Back home');
   });
 });

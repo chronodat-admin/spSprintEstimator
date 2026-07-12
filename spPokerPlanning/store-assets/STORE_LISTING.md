@@ -1,6 +1,10 @@
 # Sprint Align — Microsoft Marketplace listing content
 
-Copy-ready text for Partner Center, SharePoint Store, and AppSource. Replace placeholder URLs before submission.
+Copy-ready text for Partner Center, SharePoint Store, and AppSource.
+
+> **Full submission pack (HTML description, categories, keywords, certification notes,
+> Stripe text):** see [`docs/store-submission/`](../docs/store-submission/README.md)
+> and [`docs/microsoft-store-submission.md`](../docs/microsoft-store-submission.md).
 
 ---
 
@@ -9,10 +13,11 @@ Copy-ready text for Partner Center, SharePoint Store, and AppSource. Replace pla
 | Field | Value |
 |-------|-------|
 | **Product name** | Sprint Align |
-| **Publisher display name** | *(your company name)* |
+| **Publisher display name** | Chronodat, LLC |
 | **Category** | Productivity |
-| **Industries** | Cross-industry |
-| **Supported hosts** | SharePoint (full page + web part), Microsoft Teams tab |
+| **Categories (max 3)** | Productivity · Workflow & Process Management · IT/admin |
+| **Industries (max 2)** | Professional Services · Education |
+| **Supported hosts** | SharePoint (full page + web part), Microsoft Teams tab & personal app |
 
 ---
 
@@ -22,7 +27,29 @@ Planning poker, dot voting, and agile estimation for SharePoint and Teams. Sessi
 
 ---
 
+## Search results summary (≤100 characters)
+
+Planning poker for SharePoint and Teams — private votes, facilitator reveal, tenant-resident data.
+
+---
+
+## Search keywords (Partner Center — max 3)
+
+1. planning poker
+2. agile estimation
+3. SharePoint planning poker
+
+### Extended keywords (reference / SEO)
+
+planning poker, agile estimation, story points, sprint planning, scrum, dot voting, fist of five, confidence vote, SharePoint, Microsoft Teams, retrospective, backlog grooming, facilitator, estimation session
+
+---
+
 ## Long description (AppSource / marketplace)
+
+**Paste the HTML version from [`docs/store-submission/partner-center-long-description.html`](../docs/store-submission/partner-center-long-description.html)** — Partner Center renders supported HTML tags and the styled Help & Support buttons.
+
+Plain-text summary:
 
 **Align your team on story points, confidence, and priorities—inside Microsoft 365.**
 
@@ -39,11 +66,11 @@ Sprint Align is a full-page SharePoint Framework app for Scrum teams, product ow
 
 ### Optional integrations (feature flags)
 
-When enabled by your administrator:
+When enabled by your administrator in Settings → Advanced:
 
-- Microsoft Graph profile photos
-- Microsoft Graph presence indicators
-- Azure DevOps backlog import and story-point writeback
+- Microsoft Graph profile photos (`User.ReadBasic.All`)
+- Microsoft Graph presence indicators (`Presence.Read.All`)
+- Azure DevOps backlog import and story-point writeback (`user_impersonation`)
 
 Core estimation does **not** require data to leave SharePoint.
 
@@ -62,12 +89,6 @@ Core estimation does **not** require data to leave SharePoint.
 
 ---
 
-## Search keywords (suggested)
-
-planning poker, agile estimation, story points, sprint planning, scrum, dot voting, fist of five, confidence vote, SharePoint, Microsoft Teams, retrospective, backlog grooming, facilitator, estimation session
-
----
-
 ## Value proposition bullets (for listing “Features” section)
 
 1. **Planning poker & six vote types** — Fibonacci decks, confidence scales, dot budgets, roman votes, surveys, and more.
@@ -83,41 +104,49 @@ planning poker, agile estimation, story points, sprint planning, scrum, dot voti
 
 | File | Caption |
 |------|---------|
-| `sprint-align-screenshot-01-home.png` | **Home** — Join sessions with a code or start a new estimation workshop from a branded full-page home screen. |
-| `sprint-align-screenshot-02-sessions.png` | **Sessions** — Facilitators run rounds, track participation, and reveal team estimates item by item. |
-| `sprint-align-screenshot-03-settings.png` | **Settings** — Site owners provision lists, set retention, branding, layout, and session-creation rules. |
+| `sprint-align-screenshot-01-home.png` | **Home** — Join sessions with a six-character code or start a new estimation workshop from a branded full-page home screen. |
+| `sprint-align-screenshot-02-voting.png` | **Live voting** — Everyone votes privately; the facilitator tracks live participation and reveals the round together. |
+| `sprint-align-screenshot-03-results.png` | **Results** — See average, median, range, and outliers at a glance, then save the agreed final estimate. |
+| `sprint-align-screenshot-04-settings.png` | **Settings** — Site owners provision lists, set retention, branding, layout, and session-creation rules. |
+| `sprint-align-screenshot-05-how-it-works.png` | **How it works** — End-to-end scrum flow: facilitator sets up, team joins, votes privately, reveals together, and agrees on estimates. |
 
-> **Before submission:** Replace the generated marketing mockups with live screenshots from your tenant (1366×768 px, ≤1024 KB each). Keep captions; update filenames in Partner Center if needed.
-
----
-
-## Support & legal (fill in before publish)
-
-| Field | Placeholder |
-|-------|-------------|
-| **Support URL** | `https://your-domain.com/support` |
-| **Privacy policy URL** | `https://your-domain.com/privacy` |
-| **Terms of use URL** | `https://your-domain.com/terms` |
-| **Support contact email** | `support@your-domain.com` |
+All screenshots are **1366×768 PNG, ≤ 1024 KB**. Regenerate with `python store-assets/scripts/build-store-ai.py`.
 
 ---
 
-## Release notes — v1.1.0.0
+## Support & legal
 
-- Rebranded to **Sprint Align** for marketplace launch
-- Unified Settings hub (setup, governance, branding, hero text, page layout)
-- Custom brand colors and editable home-page hero
-- Full-page immersive layout with scroll and chrome controls
-- Six session types with facilitator reveal and CSV export
+| Field | URL |
+|-------|-----|
+| **Support URL** | `https://www.chronodat.com/wiki/sprint-align` |
+| **Product page** | `https://www.chronodat.com/sprint-align` |
+| **Privacy policy URL** | `https://www.chronodat.com/Privacy` |
+| **Terms of use URL** | `https://www.chronodat.com/terms-conditions` |
+| **Support contact email** | `support@chronodat.com` |
 
 ---
 
-## Pricing suggestion (Partner Center)
+## Release notes — v1.1.3.29
+
+- Planning poker, confidence, fist-of-five, roman, dot voting, and survey session types
+- Join-by-code sessions with Microsoft 365 identity
+- Private voting with facilitator reveal and round statistics
+- Custom card decks, session history, and CSV export
+- Unified Settings hub (setup, governance, branding, home page, layout, subscription, advanced)
+- Full-page immersive layout with light/dark mode
+- SharePoint-native data storage — no external estimation backend
+
+---
+
+## Pricing (Partner Center / Stripe)
 
 | Model | Notes |
 |-------|-------|
-| **Free** | Good for initial AppSource traction and reviews |
-| **Per-seat / site license** | Consider after validation if you add premium integrations |
+| **14-day free trial** | Per site collection; starts on first use |
+| **Yearly subscription** | One license per site collection; unlimited users |
+| **Stripe product slug** | `sprint-align` |
+
+See [`docs/store-submission/partner-center-and-billing-setup.md`](../docs/store-submission/partner-center-and-billing-setup.md) for Stripe product name, description, and suggested fields.
 
 ---
 
@@ -132,6 +161,12 @@ planning poker, agile estimation, story points, sprint planning, scrum, dot voti
 | Teams outline icon | `teams/28aa74f7-6fa5-46b3-8eeb-52e0619be118_outline.png` | 32×32 |
 | Web part toolbox icon | `src/webparts/estimatr/assets/icon-64.png` | 64×64 |
 | Single app page preview | `src/webparts/estimatr/assets/full-page-icon.png` | 193×158 |
-| Screenshots (×3 min) | `generated/screenshots/*.png` | 1366×768 |
+| Screenshots (×5) | `generated/screenshots/sprint-align-screenshot-0N-*.png` | 1366×768 |
 
 Run `python store-assets/generate-icons.py` to regenerate icons after design tweaks.
+
+---
+
+## Machine-readable fields
+
+JSON summary for scripts and automation: [`partner-center-fields.json`](./partner-center-fields.json)

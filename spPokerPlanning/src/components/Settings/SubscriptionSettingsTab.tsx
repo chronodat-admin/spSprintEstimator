@@ -155,7 +155,7 @@ export const SubscriptionSettingsTab: React.FC<ISubscriptionSettingsTabProps> = 
                   <StatTile label="Subscription renews" value={formatDate(status.currentPeriodEnd)} />
                 ) : null}
               </ResponsiveGrid>
-              <Text block variant="small" className="estimatr-meta-text" styles={{ root: { color: '#94a3b8' } }}>
+              <Text block variant="small" className="estimatr-meta-text" styles={{ root: { color: 'var(--estimatr-text-muted, #94a3b8)' } }}>
                 Tenant ID: {spfxContext.tenantId || '—'}
                 {status.customerEmail ? ` · Contact: ${status.customerEmail}` : ''}
               </Text>

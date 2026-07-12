@@ -430,7 +430,7 @@ export const SessionView: React.FC = () => {
             <Stack horizontal horizontalAlign="space-between" verticalAlign="center" wrap tokens={{ childrenGap: 12 }}>
               <Stack tokens={{ childrenGap: 4 }}>
                 <div style={sectionEyebrowStyle}>Backlog navigation</div>
-                <Text styles={{ root: { color: '#64748b', lineHeight: '1.45' } }}>
+                <Text styles={{ root: { color: 'var(--estimatr-text-secondary, #64748b)', lineHeight: '1.45' } }}>
                   Move between items to review estimates or skip ahead. Reveal or skip before leaving an open round.
                 </Text>
               </Stack>
@@ -465,8 +465,8 @@ export const SessionView: React.FC = () => {
                 {item ? (
                   <>
                     <div style={sectionEyebrowStyle}>Current backlog item</div>
-                    <Text styles={{ root: { fontSize: 'clamp(24px, 3vw, 32px)', lineHeight: '1.15', fontWeight: 800, color: '#0f172a' } }}>{item.title}</Text>
-                    {item.description && <Text styles={{ root: { color: '#64748b', fontSize: 15, lineHeight: '1.55' } }}>{item.description}</Text>}
+                    <Text styles={{ root: { fontSize: 'clamp(24px, 3vw, 32px)', lineHeight: '1.15', fontWeight: 800, color: 'var(--estimatr-text-primary, #0f172a)' } }}>{item.title}</Text>
+                    {item.description && <Text styles={{ root: { color: 'var(--estimatr-text-secondary, #64748b)', fontSize: 15, lineHeight: '1.55' } }}>{item.description}</Text>}
                     {item.externalLink && (
                       <a href={item.externalLink} target="_blank" rel="noreferrer" style={{ color: 'var(--estimatr-brand-primary, #2563eb)', fontWeight: 700, textDecoration: 'none' }}>
                         Open work item →
@@ -488,8 +488,8 @@ export const SessionView: React.FC = () => {
                   <Stack tokens={{ childrenGap: 18 }}>
                     <Stack tokens={{ childrenGap: 6 }}>
                       <div style={sectionEyebrowStyle}>Your vote</div>
-                      <Text styles={{ root: { fontSize: 24, fontWeight: 800, color: '#0f172a' } }}>Choose your estimate</Text>
-                      <Text styles={{ root: { color: '#64748b', lineHeight: '1.5' } }}>
+                      <Text styles={{ root: { fontSize: 24, fontWeight: 800, color: 'var(--estimatr-text-primary, #0f172a)' } }}>Choose your estimate</Text>
+                      <Text styles={{ root: { color: 'var(--estimatr-text-secondary, #64748b)', lineHeight: '1.5' } }}>
                         Your selection stays private until the facilitator reveals the round.
                         {voteType === SessionType.Poker && ' Use number keys for quick voting.'}
                       </Text>
@@ -576,8 +576,8 @@ export const SessionView: React.FC = () => {
             <Stack tokens={{ childrenGap: 16 }} styles={{ root: { height: '100%' } }}>
               <Stack tokens={{ childrenGap: 4 }}>
                 <div style={sectionEyebrowStyle}>Team roster</div>
-                <Text styles={{ root: { fontSize: 22, fontWeight: 800, color: '#0f172a' } }}>{roster.length} {roster.length === 1 ? 'participant' : 'participants'}</Text>
-                <Text styles={{ root: { color: '#64748b' } }}>{round && !isRevealed ? 'Live participation for this round' : 'Everyone in this session'}</Text>
+                <Text styles={{ root: { fontSize: 22, fontWeight: 800, color: 'var(--estimatr-text-primary, #0f172a)' } }}>{roster.length} {roster.length === 1 ? 'participant' : 'participants'}</Text>
+                <Text styles={{ root: { color: 'var(--estimatr-text-secondary, #64748b)' } }}>{round && !isRevealed ? 'Live participation for this round' : 'Everyone in this session'}</Text>
               </Stack>
               {round && !isRevealed && (
                 <div style={{ height: 8, borderRadius: 999, background: '#e2e8f0', overflow: 'hidden' }}>
