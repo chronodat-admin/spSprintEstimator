@@ -20,6 +20,7 @@ interface IStatusTokenPayload {
 }
 
 let cachedCryptoKey: CryptoKey | undefined;
+let verificationKeyPromise: Promise<CryptoKey | undefined> | undefined;
 
 function base64UrlToBytes(value: string): Uint8Array {
   const padded = value.replace(/-/g, '+').replace(/_/g, '/');
@@ -63,23 +64,29 @@ async function getVerificationKey(apiBaseUrl: string): Promise<CryptoKey | undef
     return cachedCryptoKey;
   }
 
-  const response = await fetch(`${apiBaseUrl}/api/subscription/status-signing-key`, {
-    method: 'GET',
-    headers: { Accept: 'application/json' }
-  });
+  if (!verificationKeyPromise) {
+    verificationKeyPromise = (async (): Promise<CryptoKey | undefined> => {
+      const response = await fetch(`${apiBaseUrl}/api/subscription/status-signing-key`, {
+        method: 'GET',
+        headers: { Accept: 'application/json' }
+      });
 
-  if (!response.ok) {
-    return undefined;
+      if (!response.ok) {
+        return undefined;
+      }
+
+      const data = (await response.json()) as IStatusSigningKeyResponse;
+      if (!data.publicKey) {
+        return undefined;
+      }
+
+      const importedKey = await importPublicKey(data.publicKey);
+      cachedCryptoKey = importedKey;
+      return importedKey;
+    })();
   }
 
-  const data = (await response.json()) as IStatusSigningKeyResponse;
-  if (!data.publicKey) {
-    return undefined;
-  }
-
-  const importedKey = await importPublicKey(data.publicKey);
-  cachedCryptoKey = importedKey;
-  return importedKey;
+  return verificationKeyPromise;
 }
 
 export async function verifySubscriptionStatusToken(
@@ -168,4 +175,5 @@ export async function verifySubscriptionStatusToken(
 
 export function clearStatusSigningKeyCache(): void {
   cachedCryptoKey = undefined;
+  verificationKeyPromise = undefined;
 }

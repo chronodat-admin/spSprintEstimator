@@ -16,13 +16,9 @@ const authFile = 'e2e/.auth/user.json';
 
 /**
  * Drives the full Sprint Align experience with the in-memory demo workshop
- * (no SharePoint writes) and captures the marketplace screenshots used for the
- * AppSource / SharePoint store listing. Because it walks every primary screen —
- * home, live voting, revealed results, settings/branding, and history — it also
- * serves as an end-to-end smoke test of the shipped bundle on the live page.
- *
- * The three package-solution screenshotPaths (01-home, 02-sessions, 03-settings)
- * are always regenerated; 04-results and 05-history are extra listing assets.
+ * (no SharePoint writes) and captures marketplace screenshots used for the
+ * AppSource / SharePoint store listing. Filenames match package-solution
+ * screenshotPaths and Partner Center upload names (01–05).
  */
 test.describe('Sprint Align — AppSource screenshots (demo data)', () => {
   test.describe.configure({ mode: 'serial' });
@@ -58,20 +54,18 @@ test.describe('Sprint Align — AppSource screenshots (demo data)', () => {
   test('02 — live voting session', { tag: '@screenshots' }, async () => {
     await launchDemoWorkshop(page);
 
-    // Demo lands on an open round for the first story with teammates already voting.
     await expect(appRoot(page).getByText('User onboarding flow redesign')).toBeVisible({ timeout: 30_000 });
     await expect(appRoot(page).getByText(/choose your estimate/i)).toBeVisible();
     await expect(appRoot(page).getByText(/team roster/i)).toBeVisible();
     await expect(appRoot(page).getByText('Sam Rivera')).toBeVisible();
 
-    // Cast the facilitator's own estimate so the board reads as a full round.
     const voteCard = appRoot(page).getByRole('button', { name: 'Vote 5' });
     if (await voteCard.isVisible().catch(() => false)) {
       await voteCard.click();
       await expect(appRoot(page).getByText(/your vote:/i)).toBeVisible({ timeout: 15_000 });
     }
 
-    await saveStoreScreenshot(page, 'sprint-align-screenshot-02-sessions.png');
+    await saveStoreScreenshot(page, 'sprint-align-screenshot-02-voting.png');
   });
 
   test('03 — revealed round results', { tag: '@screenshots' }, async () => {
@@ -80,7 +74,7 @@ test.describe('Sprint Align — AppSource screenshots (demo data)', () => {
       await reveal.click();
     }
     await expect(appRoot(page).getByText('Round results')).toBeVisible({ timeout: 30_000 });
-    await saveStoreScreenshot(page, 'sprint-align-screenshot-04-results.png');
+    await saveStoreScreenshot(page, 'sprint-align-screenshot-03-results.png');
   });
 
   test('04 — settings and branding', { tag: '@screenshots' }, async () => {
@@ -88,12 +82,11 @@ test.describe('Sprint Align — AppSource screenshots (demo data)', () => {
 
     await openSettingsTab(page, 'Branding');
     await expect(appRoot(page).getByRole('tab', { name: 'Branding' })).toBeVisible();
-    // Brand preview card is the most representative settings visual.
     await expect(appRoot(page).getByText(/brand preview/i).first()).toBeVisible({ timeout: 30_000 });
-    await saveStoreScreenshot(page, 'sprint-align-screenshot-03-settings.png');
+    await saveStoreScreenshot(page, 'sprint-align-screenshot-04-settings.png');
   });
 
-  test('05 — session history', { tag: '@screenshots' }, async () => {
+  test('05 — session history (extra capture)', { tag: '@screenshots' }, async () => {
     await clickAppButton(page, 'Back home');
     await expect(appRoot(page).getByText('Join a session')).toBeVisible({ timeout: 30_000 });
 
@@ -101,6 +94,6 @@ test.describe('Sprint Align — AppSource screenshots (demo data)', () => {
     await expect(
       appRoot(page).getByRole('heading', { name: /review previous sessions|sessions/i }).first()
     ).toBeVisible({ timeout: 30_000 });
-    await saveStoreScreenshot(page, 'sprint-align-screenshot-05-history.png');
+    await saveStoreScreenshot(page, 'sprint-align-screenshot-extra-history.png');
   });
 });

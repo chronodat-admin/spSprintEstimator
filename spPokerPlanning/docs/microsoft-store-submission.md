@@ -1,6 +1,6 @@
 # Microsoft Store Submission Guide — Sprint Align
 
-**Version:** 1.1.3.29
+**Version:** 1.1.3.30
 
 > For how every submission artifact (images, AI prompts, store description, component
 > and permission details, icons, screenshots, version metadata) is generated, see
@@ -17,20 +17,21 @@
 
 ## Pre-submission checklist
 
-- [ ] Set the real Partner Center MPN ID in `config/package-solution.json` → `developer.mpnId`.
-- [ ] Set `developer.websiteUrl`, `privacyUrl`, and `termsOfUseUrl` in `config/package-solution.json`.
-- [ ] Bump `version` in `config/package-solution.json` before each store upload (currently **1.1.3.29**).
-- [ ] Run `npm run lint && npm test`.
-- [ ] Run `python store-assets/generate-icons.py` (if icon changed).
-- [ ] Run `python store-assets/scripts/build-store-ai.py` (regenerate 1366×768 store screenshots).
+- [x] Set `developer.websiteUrl`, `privacyUrl`, and `termsOfUseUrl` in `config/package-solution.json` (synced from `config/publisher.json`).
+- [ ] Set the real Partner Center MPN ID in `config/publisher.json` → `mpnId` (or `CHRONODAT_MPN_ID` env var).
+- [ ] Bump `version` in `config/package-solution.json` before each store upload (currently **1.1.3.30**).
+- [x] Run `npm test` (unit tests).
+- [x] Run `npm run lint` (ESLint on `src/`).
+- [ ] Run `npm run assets:store-screenshots` after UI or marketing image changes.
 - [ ] Run `gulp bundle --ship && gulp package-solution --ship`.
 - [ ] Upload Partner Center **logo** from `store-assets/generated/store-logo-300.png`.
 - [ ] Upload screenshots from `store-assets/generated/screenshots/` (01–05).
 - [ ] Paste HTML description from `docs/store-submission/partner-center-long-description.html`.
 - [ ] Paste search keywords, categories, and search summary from `docs/store-submission/partner-center-and-billing-setup.md`.
+- [ ] Configure Stripe product `sprint-align` and Partner Center commercial offer ($499/year suggested).
 - [ ] Use **Preview** in Partner Center before publish.
 
-Current package version: **1.1.3.29** (update `config/package-solution.json` before each store upload).
+Current package version: **1.1.3.30** (update `config/package-solution.json` before each store upload).
 
 ## Screenshot files (current)
 
@@ -45,8 +46,10 @@ Current package version: **1.1.3.29** (update `config/package-solution.json` bef
 Regenerate with:
 
 ```powershell
-python store-assets/scripts/build-store-ai.py
+npm run assets:store-screenshots
 ```
+
+> `gulp bundle` regenerates icons only — it no longer overwrites listing screenshots.
 
 ## Partner Center paste locations
 
@@ -61,3 +64,14 @@ python store-assets/scripts/build-store-ai.py
 | Screenshots (×5) | Offer listing → Screenshots | `store-assets/generated/screenshots/` |
 | Logo | Offer listing → Logos | `store-assets/generated/store-logo-300.png` |
 | Notes for certification | Review and publish | `partner-center-and-billing-setup.md` |
+
+## Publisher metadata
+
+Legal URLs and publisher name live in `config/publisher.json`. The build applies them to
+`config/package-solution.json` automatically via `scripts/apply-publisher-metadata.js`.
+
+Set your MPN ID in `config/publisher.json` before AppSource submission:
+
+```json
+"mpnId": "YOUR_PARTNER_CENTER_MPN_ID"
+```

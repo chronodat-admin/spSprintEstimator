@@ -73,14 +73,14 @@ Output (overwrites in place) → `store-assets/generated/screenshots/`:
 | File | Screen |
 |------|--------|
 | `sprint-align-screenshot-01-home.png` | Home page with demo workshop banner |
-| `sprint-align-screenshot-02-sessions.png` | Live voting session (roster + poker cards) |
-| `sprint-align-screenshot-03-settings.png` | Settings → Branding (brand preview) |
-| `sprint-align-screenshot-04-results.png` | Revealed round results / consensus |
-| `sprint-align-screenshot-05-history.png` | Session history |
+| `sprint-align-screenshot-02-voting.png` | Live voting session (roster + poker cards) |
+| `sprint-align-screenshot-03-results.png` | Revealed round results / consensus |
+| `sprint-align-screenshot-04-settings.png` | Settings → Branding (brand preview) |
+| `sprint-align-screenshot-extra-history.png` | Session history (optional extra capture) |
 
-The first three filenames are the `screenshotPaths` referenced in
-`config/package-solution.json`, so re-running the build repackages the refreshed
-images. It reuses the same saved Microsoft login as the other specs.
+These filenames match `config/package-solution.json` → `screenshotPaths` for scenes 01–04.
+For the full five-image Partner Center set (including `05-how-it-works`), run
+`npm run assets:store-screenshots` instead.
 
 > The demo workshop relies on the temporary `enableMockData` flag / `src/demo/`
 > folder. If that is removed before launch, generate screenshots by creating a

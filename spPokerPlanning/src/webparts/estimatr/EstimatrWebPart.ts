@@ -50,6 +50,7 @@ export default class EstimatrWebPart extends BaseClientSideWebPart<IEstimatrWebP
     if (existingMounts.length > 0) {
       this._reactMountPoint = existingMounts[existingMounts.length - 1];
       for (let i = 0; i < existingMounts.length - 1; i++) {
+        // eslint-disable-next-line @microsoft/spfx/pair-react-dom-render-unmount -- remove stale duplicate mounts
         ReactDom.unmountComponentAtNode(existingMounts[i]);
         existingMounts[i].remove();
       }
@@ -153,6 +154,7 @@ export default class EstimatrWebPart extends BaseClientSideWebPart<IEstimatrWebP
         }
       );
 
+      // eslint-disable-next-line @microsoft/spfx/pair-react-dom-render-unmount -- unmount in onDispose()
       ReactDom.render(element, mount);
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -201,9 +203,10 @@ export default class EstimatrWebPart extends BaseClientSideWebPart<IEstimatrWebP
     clearSharePointChromeSettings();
     unmarkTeamsHostEnvironment();
     if (this._reactMountPoint) {
+      // eslint-disable-next-line @microsoft/spfx/pair-react-dom-render-unmount -- paired with render()
       ReactDom.unmountComponentAtNode(this._reactMountPoint);
+      this._reactMountPoint = undefined;
     }
-    ReactDom.unmountComponentAtNode(this.domElement);
   }
 
   protected get dataVersion(): Version {

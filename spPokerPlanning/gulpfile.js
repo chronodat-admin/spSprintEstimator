@@ -5,6 +5,13 @@ const build = require('@microsoft/sp-build-web');
 build.addSuppression(`Warning - [sass] The local CSS class 'ms-Grid' is not camelCase and will not be type-safe.`);
 
 build.rig.addPreBuildTask(
+  build.subTask('apply-publisher-metadata', function applyPublisherMetadata(_gulp, _buildConfig, done) {
+    require('./scripts/apply-publisher-metadata.js');
+    done();
+  })
+);
+
+build.rig.addPreBuildTask(
   build.subTask('generate-build-info', function generateBuildInfo(_gulp, _buildConfig, done) {
     require('./scripts/generate-build-info.js');
     done();

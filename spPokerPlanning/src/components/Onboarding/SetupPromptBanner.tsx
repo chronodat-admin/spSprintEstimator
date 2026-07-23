@@ -4,6 +4,10 @@ import { IProvisioningStatus } from '../../services/ProvisioningService';
 import { APP_NAME } from '../../config/appMeta';
 import { TeamsSetupWarning } from './TeamsSetupWarning';
 
+const StackLike: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%' }}>{children}</div>
+);
+
 export interface SetupPromptBannerProps {
   status: IProvisioningStatus;
   isSiteOwner: boolean;
@@ -53,7 +57,3 @@ export const SetupPromptBanner: React.FC<SetupPromptBannerProps> = ({
     </StackLike>
   );
 };
-
-const StackLike: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%' }}>{children}</div>
-);

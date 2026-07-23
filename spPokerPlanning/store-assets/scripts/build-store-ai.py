@@ -20,7 +20,7 @@ SRC = ROOT / "generated" / "marketing" / "_ai_clean"
 OUT = ROOT / "generated" / "screenshots"
 
 W, H = 1366, 768
-CAP_KB = 1024
+CAP_KB = 950
 
 IMAGES = [
     ("ai-embed-hero.png", "sprint-align-screenshot-01-home.png"),
@@ -53,12 +53,21 @@ def fit_extend(img: Image.Image) -> Image.Image:
 
 def save_under_cap(img: Image.Image, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    img.save(path, format="PNG", optimize=True, compress_level=9)
-    if path.stat().st_size / 1024 > CAP_KB:
-        img.quantize(colors=256, method=Image.Quantize.FASTOCTREE).convert("RGB").save(
-            path, format="PNG", optimize=True, compress_level=9
-        )
-    print(f"  {path.relative_to(ROOT)} ({img.width}x{img.height}, {path.stat().st_size / 1024:.0f} KB)")
+    max_bytes = CAP_KB * 1024
+    working = img.convert("RGB")
+
+    working.save(path, format="PNG", optimize=True, compress_level=9)
+    if path.stat().st_size <= max_bytes:
+        print(f"  {path.relative_to(ROOT)} ({working.width}x{working.height}, {path.stat().st_size / 1024:.0f} KB)")
+        return
+
+    for colors in (256, 128, 96, 64):
+        quantized = working.quantize(colors=colors, method=Image.Quantize.FASTOCTREE).convert("RGB")
+        quantized.save(path, format="PNG", optimize=True, compress_level=9)
+        if path.stat().st_size <= max_bytes:
+            break
+
+    print(f"  {path.relative_to(ROOT)} ({working.width}x{working.height}, {path.stat().st_size / 1024:.0f} KB)")
 
 
 def main() -> None:

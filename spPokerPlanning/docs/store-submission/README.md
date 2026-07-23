@@ -25,7 +25,7 @@ This is the index. Companion docs:
 | Partner Center HTML description | this repo (hand-authored from code) | `docs/store-submission/partner-center-long-description.html` | manual + review |
 | Machine-readable fields | this repo | `store-assets/partner-center-fields.json` | manual + review |
 | App icons (96/color/outline/store logo) | `store-assets/brand/sprint-align-app-icon.png` | `generated/`, `teams/`, `sharepoint/`, `src/` | `python store-assets/generate-icons.py` |
-| Store screenshots (1366×768) | AI-embedded real UI + icon footer | `store-assets/generated/screenshots/` | `python store-assets/scripts/build-store-ai.py` |
+| Store screenshots (1366×768) | AI-embedded real UI + icon footer | `store-assets/generated/screenshots/` | `npm run assets:store-screenshots` |
 | Full-page UI captures (reference) | Playwright e2e | `store-assets/generated/screenshots/full-page/` | `npm run test:e2e:fullpage` |
 | Chronodat web assets | store screenshots + wiki figures | `C:/chronodatWeb/chronodat-web/img/sprint-align/` | `python store-assets/scripts/build-web-assets.py` |
 | `.sppkg` package | `config/package-solution.json` | `sharepoint/solution/estimatr.sppkg` | `gulp bundle --ship && gulp package-solution --ship` |

@@ -61,7 +61,7 @@
     "mediumPng": "generated/store-logo-216.png"
   },
   "htmlDescriptionFile": "docs/store-submission/partner-center-long-description.html",
-  "releaseNotes": "Sprint Align v1.1.3.29 — planning poker and six vote types, join-by-code sessions, private voting with facilitator reveal, custom decks, session history, CSV export, unified Settings hub, full-page layout, and SharePoint-native data storage.",
+  "releaseNotes": "Sprint Align v1.1.3.30 — planning poker and six vote types, join-by-code sessions, private voting with facilitator reveal, custom decks, session history, CSV export, unified Settings hub, full-page layout, and SharePoint-native data storage.",
   "componentGuids": {
     "solution": "72d67433-2969-4168-9f32-34f6c9b994a0",
     "feature": "5d3383f9-3ad9-4baa-93ee-4cf6bb322d02",

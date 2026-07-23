@@ -1,7 +1,7 @@
 # Partner Center & Billing Setup — Paste-Ready Text
 
 Copy-paste reference for **Sprint Align** marketplace submission and Stripe product
-configuration. Package version at time of writing: **1.1.3.29**.
+configuration. Package version at time of writing: **1.1.3.30**.
 
 ---
 
@@ -81,8 +81,8 @@ Paste into **Review and publish → Notes for certification**. Put real test acc
 passwords in Partner Center **secure notes** or an **Additional certification info** PDF.
 
 ```
-TEST SITE: https://[your-tenant].sharepoint.com/sites/[test-site]
-PACKAGE: estimatr.sppkg v1.1.3.29
+TEST SITE: https://chronodat.sharepoint.com/sites/ChronodatProdApps/spfx/sp
+PACKAGE: estimatr.sppkg v1.1.3.30
 
 ACCOUNTS (credentials in secure submission notes):
 1) SharePoint/tenant admin — deploy .sppkg tenant-wide, approve Graph permissions, Sync to Teams
@@ -190,7 +190,7 @@ Annual license for one SharePoint site collection. Unlimited users. 14-day free 
 |-------|-------|
 | Metadata | `productSlug: sprint-align` |
 | Billing | Recurring, yearly |
-| Price | *(set before launch — e.g. $499.00 USD / year)* |
+| Price | $499.00 USD / year (set in Stripe + Partner Center before publish) |
 | Price nickname | `Sprint Align Annual` |
 | Statement descriptor | `CHRONODAT SPRINT` (max 22 chars) |
 
@@ -208,7 +208,7 @@ SPFx app: Sprint Align. Subscription API: subscription.chronodat.com. Checkout v
 
 ---
 
-## Release notes — v1.1.3.29
+## Release notes — v1.1.3.30
 
 ```
 - Planning poker, confidence, fist-of-five, roman, dot voting, and survey session types

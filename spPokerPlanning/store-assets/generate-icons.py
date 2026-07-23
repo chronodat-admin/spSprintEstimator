@@ -220,18 +220,6 @@ def main() -> None:
     save_png(OUT / "full-page-icon-193x158.png", render_full_page_icon(master))
     save_png(TEAMS / f"{component_id}_outline.png", render_outline_icon(32))
 
-    screenshots = [
-        ("Align on estimates faster", "Run planning poker, dot voting, and surveys without leaving SharePoint.", "Home"),
-        ("Facilitator-led sessions", "Create a session, share a join code, and guide the team through each backlog item.", "Sessions"),
-        ("Governance built in", "Site owners control provisioning, retention, branding, and who can create sessions.", "Settings"),
-    ]
-    shot_dir = OUT / "screenshots"
-    for i, (title, subtitle, badge) in enumerate(screenshots, start=1):
-        save_png(
-            shot_dir / f"sprint-align-screenshot-{i:02d}-{badge.lower()}.png",
-            render_screenshot(master, title, subtitle, badge, i),
-        )
-
 
 if __name__ == "__main__":
     main()

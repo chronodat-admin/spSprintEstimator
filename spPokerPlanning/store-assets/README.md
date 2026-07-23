@@ -18,6 +18,10 @@ Requires Python 3 with [Pillow](https://pypi.org/project/Pillow/) (`pip install 
 
 All marketplace, SPFx, and Teams sizes are derived from the master icon. Brand colors match Chronodat (`#f1dd00` gold, navy backgrounds).
 
+> Listing screenshots (`generated/screenshots/sprint-align-screenshot-0N-*.png`) are **not**
+> generated here. Use `npm run assets:store-screenshots` (AI pipeline) or
+> `npm run test:e2e:screenshots` (live demo UI captures).
+
 ## Store screenshots — AI-embedded real UI + AI icon footer (CURRENT / recommended)
 
 These are the images actually submitted to AppSource. The image model **embeds the

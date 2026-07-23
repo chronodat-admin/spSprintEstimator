@@ -3,11 +3,11 @@
  * Remove with src/demo/ when mock data is no longer needed.
  */
 
-const samRiveraPhoto: string = require('./assets/sam-rivera.jpg');
-const jordanLeePhoto: string = require('./assets/jordan-lee.jpg');
-const alexChenPhoto: string = require('./assets/alex-chen.jpg');
-const morganPatelPhoto: string = require('./assets/morgan-patel.jpg');
-const taylorBrooksPhoto: string = require('./assets/taylor-brooks.jpg');
+import samRiveraPhoto from './assets/sam-rivera.jpg';
+import jordanLeePhoto from './assets/jordan-lee.jpg';
+import alexChenPhoto from './assets/alex-chen.jpg';
+import morganPatelPhoto from './assets/morgan-patel.jpg';
+import taylorBrooksPhoto from './assets/taylor-brooks.jpg';
 
 export const MOCK_PARTICIPANT_PHOTO_URLS: Record<string, string> = {
   'mock-sam-rivera': samRiveraPhoto,

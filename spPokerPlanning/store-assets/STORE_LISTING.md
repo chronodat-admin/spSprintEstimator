@@ -126,7 +126,7 @@ All screenshots are **1366×768 PNG, ≤ 1024 KB**. Regenerate with `python stor
 
 ---
 
-## Release notes — v1.1.3.29
+## Release notes — v1.1.3.30
 
 - Planning poker, confidence, fist-of-five, roman, dot voting, and survey session types
 - Join-by-code sessions with Microsoft 365 identity

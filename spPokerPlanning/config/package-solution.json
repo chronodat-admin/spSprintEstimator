@@ -4,7 +4,7 @@
     "name": "Sprint Align",
     "iconPath": "assets/appicon.png",
     "id": "72d67433-2969-4168-9f32-34f6c9b994a0",
-    "version": "1.1.3.29",
+    "version": "1.1.3.30",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
@@ -23,10 +23,10 @@
       }
     ],
     "developer": {
-      "name": "Sprint Align",
-      "websiteUrl": "",
-      "privacyUrl": "",
-      "termsOfUseUrl": "",
+      "name": "Chronodat, LLC",
+      "websiteUrl": "https://www.chronodat.com/sprint-align",
+      "privacyUrl": "https://www.chronodat.com/Privacy",
+      "termsOfUseUrl": "https://www.chronodat.com/terms-conditions",
       "mpnId": "Undefined-1.21.1"
     },
     "metadata": {
@@ -44,14 +44,16 @@
         "../store-assets/generated/screenshots/sprint-align-screenshot-05-how-it-works.png"
       ],
       "videoUrl": "",
-      "categories": ["Productivity"]
+      "categories": [
+        "Productivity"
+      ]
     },
     "features": [
       {
         "title": "Sprint Align Feature",
         "description": "Activates the Sprint Align web part on this site.",
         "id": "5d3383f9-3ad9-4baa-93ee-4cf6bb322d02",
-        "version": "1.1.3.29",
+        "version": "1.1.3.30",
         "componentIds": [
           "28aa74f7-6fa5-46b3-8eeb-52e0619be118"
         ]

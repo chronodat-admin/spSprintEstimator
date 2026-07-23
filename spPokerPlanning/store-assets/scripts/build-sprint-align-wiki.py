@@ -13,7 +13,7 @@ from pathlib import Path
 
 OUT = Path(r"C:\chronodatWeb\chronodat-web\wiki\sprint-align")
 PRODUCT = "Sprint Align"
-VERSION = "1.1.3.29"
+VERSION = "1.1.3.30"
 BASE = "/wiki/sprint-align"
 ICON = "/img/sprint-align/icon-96.png"
 IMG = "/img/sprint-align/wiki"

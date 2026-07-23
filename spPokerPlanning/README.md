@@ -13,7 +13,7 @@ Supports: planning poker, confidence votes (1–5), fist-of-five, roman votes, d
 ## Quick start
 
 ```powershell
-cd estimatr
+cd spPokerPlanning
 npm install
 gulp serve
 ```
